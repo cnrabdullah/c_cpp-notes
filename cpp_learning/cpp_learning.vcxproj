@@ -147,9 +147,49 @@
     <ClInclude Include="odevler\String.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="cLang.c" />
+    <ClCompile Include="libs\mint.cpp" />
     <ClCompile Include="libs\nutility.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="odevler\Date.cpp" />
     <ClCompile Include="odevler\Date_Test.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="odevler\basic_01.md" />
+    <None Include="odevler\c_04.md" />
+    <None Include="odevler\fo_01.md" />
+    <None Include="odevler\fo_12.md" />
+    <None Include="odevler\td_03.md" />
+    <None Include="odevler\td_04.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="notlar\not1.txt" />
+    <Text Include="notlar\not10.txt" />
+    <Text Include="notlar\not11.txt" />
+    <Text Include="notlar\not12.txt" />
+    <Text Include="notlar\not13.txt" />
+    <Text Include="notlar\not14.txt" />
+    <Text Include="notlar\not15.txt" />
+    <Text Include="notlar\not16.txt" />
+    <Text Include="notlar\not17.txt" />
+    <Text Include="notlar\not18.txt" />
+    <Text Include="notlar\not19.txt" />
+    <Text Include="notlar\not2.txt" />
+    <Text Include="notlar\not20.txt" />
+    <Text Include="notlar\not21.txt" />
+    <Text Include="notlar\not22.txt" />
+    <Text Include="notlar\not23.txt" />
+    <Text Include="notlar\not24.txt" />
+    <Text Include="notlar\not25.txt" />
+    <Text Include="notlar\not3.txt" />
+    <Text Include="notlar\not4.txt" />
+    <Text Include="notlar\not5.txt" />
+    <Text Include="notlar\not6.txt" />
+    <Text Include="notlar\not7.txt" />
+    <Text Include="notlar\not8.txt" />
+    <Text Include="notlar\not9.txt" />
+    <Text Include="notlar\taslak.txt" />
+    <Text Include="notlar\_checkpoint.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
