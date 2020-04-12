@@ -1,0 +1,84 @@
+24.01.2020
+
+Haftanýn Ödevleri:
+	
+Haftanýn Notlarý:
+	
+	Tür dönüþtürme operatörü ile oluþturulmuþ ifade her zaman rValue. 
+	Cast operatörü mesela bölme operatörlerinden bi tarafta kullanýlýrsa diðer taraf da ayný þeye cast edilir. mesela (double)x/y;
+	i++ kullanma zorunluluðun yoksa ++i kullan her zaman (ilerde detaylandýrýlacak)
+		
+	static_cast: normal türler arasý dönüþüm.
+	const_cast: const'luk durumunun deðiþtirilmesi için.
+	reinterpret_cast: pointer' türler arasý dönüþüm. int * 'dan char * türüne mesela
+	dynamic_cast: ?
+
+	static_cast<double>(iVal)
+	
+	fonksiyonlarýn ismi ayný fakat scope'larý farklý ise func overloading yoktur.
+	func overload olmasý için ayný isimli fonksiyonlarýn imzalarý farklý olmalýdýr. imza = parametrelerin sayýsý türü vs. geri dönüþ deðeri imzaya dahil deðil.
+	ayný isimdeki iki fonksiyonun imzasý ayný geri dönüþ deðeri farklý ise syntax hatasý. geri dönüþ deðeri farklýyken imza da farklý olursa overload.
+		
+	C++ dilinde using Word = int bildirimi ile typedef int Word bildirimi eþit.
+	Ýki fonksiyonun overload olup olmadýðýný anlayabilmek için ikisinin de tanýmlamasýný (body) yaparak test edebilirsin. Hata verirse redeclaration.
+	Parametrenin kendisi const ise overload yoktur. Ama mesela int * const p ile int *p redeclaration olur. ancak const int *p overload.
+	
+	int a[10] dizisini sizeof(a) ile çaðýrýrsak array decay yapýlmaz. sonuç 40 olur. yani array decay olsa &a[0] ifadesinin size'ý ile ayný olurdu. yani 4 olurdu.
+		
+		
+	Function Overloading Resolutions (hangisinin çaðýrýlacaðýna karar verme aþamasý) ihtimalleri:
+		
+		- geçersiz. sentaks hatasý.
+			a: no match. ifade hiçbir fonksiyon çaðrýsýný saðlamýyor. tek birinde denense dahi.
+			b: ambiguity. net olarak anlaþýlmýyor karýþýklýk var. iki seçenek de ayný derecede geçerli, tercih sebebi bulunamýyor.
+		- geçerli. anlaþýldý.
+
+	Þimdi hangi fonksiyonun çaðýrýlacaðýna nasýl karar verileceðine bakýyoruz. 
+	Çaðrý ile fonksiyon bildirimindeki parametre sayýsý ayný ise ve iki taraftaki türler arasýnda legal dönüþüm mevcut ise 
+	viable candidate ortaya çýkar. Bunlar arasýnda seçilebilirlik anlamýnda kalitesizden kaliteliye sýralama:
+		
+		variedic function
+		user-defined conversion (saat:21:37)
+		standard conversion: dönüþümde veri kaybý olmasý önemli deðil. eðer otomatik dönüþüm legalse standard conversion sayýlýr. 
+			Birden fazla standard conversion varsa 3 alt kategoride kaliteliden kalitesize sýralama:
+				exact match: birebir ayný türler, lval to rval, array to pointer, const conversion, func to pointer
+				promotion: float'tan double'a dönüþüm promotion. int altý türlerin aritmetik iþleme sokulmasýyla da integral promotion.
+				conversion: geriye kalan her türlü dönüþüm. mesela char'dan inte gibi. long'dan double'a gibi.				
+		
+	
+	Ýstisna1:	pointer parametre içeren fonksiyonlarda const'luk durumu uyuþan çaðýrýlýr.
+				func(const int *p) ve func(int * p) bildirimleri yapýlýrsa:
+				
+				int *p; argüman verilirse func(int * p) fonksiyonu çaðýrýlýr.
+				const int *p; argüman verilirse func(const int *p) fonksiyonu çaðýrýlýr.
+
+	Ýstisnai2:	func(double) ve func(int *ptr) bildirimleri yapýlýrsa ve func(0) çaðrýsý yapýlýrsa ambiguity olur.
+
+	Ýstisna3:	func(void *) ve func(bool) bildirimleri yapýlýrsa ve 
+				func(&ival) çaðrýsý yapýlýrsa normalde iki fonksiyon da legal (standard conv) olmasýna raðmen void * üstün gelir.
+
+
+
+Sorular:
+	
+	C'de integral promotion çalýþ. int'in altýndaki türler aritmetik iþleme sokulursa int'e dönüþtürülürler. mesela char ile char toplarsan int. typeid ile test edebilirsin.(21:58)
+	short türünü hatýrla. 
+		cvp:	char 1byte
+				short 2byte
+				int 2-4byte
+				long 8 byte
+
+				float 4byte
+				double 8byte
+				long double 10 byte
+	
+	github'da hangisi çaðrýlýr sorularýný çöz.
+		
+		
+	
+		
+		
+		
+		
+		
+		

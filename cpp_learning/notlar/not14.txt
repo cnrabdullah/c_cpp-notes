@@ -1,0 +1,149 @@
+14.02.2020
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Haftanýn Notlarý:
+
+	Sýnýfýn statik üye fonksiyonlarýný tutacak func pointer'ýn türü ile statik olmayan func'larýný tutacak
+		func pointer'larýn türleri farklýdýr. VE DE & operatörü kullanmasan da otomatik tür dönüþümü var func isminin kullanýmýnda.
+
+	Core syntax deðiþikliði (20:45)
+		Yeni koþul eklendi C++17 ile. 
+		if with initializer. noktalu virgül operatörüyle isim tanýtýmý yaparak iki deyimi birden koyabiliriz if'in içine.
+
+		Sentaks:
+		if( int x = 3; int x>0 ){
+			//x kullanýmý geçerli
+		}
+		else{
+			//x kullanýmý geçerli
+		}
+		//x kullanýmý geçersiz
+	
+	Core syntax deðiþikliði (21:05)
+		Yeni döngü eklendi C++11 ile
+		range based for loop. ilerde detaylý iþleyeceðiz. (21:09'da detaylandýrýlýyor.)
+			sentaks:
+				for(auto c : str1)	//burada kopyalama var. c'yi deðiþtirirsek str1 deðiþmez
+				for(auto &c : str1)	//burada referans var. c'yi deðiþtirirsek str1 de deðiþir.
+
+		int intArray[5];
+		for(int i : intArray){		//auto i de diyebilirdik.
+			//burada dizinin içindeki her int için bir iterasyon yapýlacak.
+		}
+
+		burada her iterasyonda intArray'den i'ye kopyalama yapýlýyor. yani sýnýf olsaydý bu, cctor çaðýrýlacaktý.
+		ek olarak burada local bir deðiþken oluþturmuþ oluyoruz. yani i'yi deðiþtirsek de dizinin gerçek eleman deðeri deðiþmez.
+		YANÝ C#'taki foreach'teki mantýkla çalýþmýyor!
+		Bunu yapabilmek için referans kullanýlýr.
+
+		for(int &i : intArray){		//auto i de diyebilirdik.
+			//burada i deðiþtirildiðinde dizinin elemanýnýn kendisini deðiþtirdik.
+		}
+
+
+	Dinamik nesne oluþturma new sentakslarý:
+		new T
+		new T[]
+		new (expr) T
+		new (nothrow)
+	Dinamik nesnenin hayatýný bitirmek için örnekler(yukarýdaki ilk ikisinin karþýlýðý, diðerlerini söylemedi hoca):
+		delete p
+		delete p[]
+		
+
+	new T  fonksiyon senktasý:	   
+		T *d = new T;		
+			Bu aslýnda void *operator new(size_t n) fonksiyonunuçaðýrýyor. C'deki malloc karþýlýðý gibi birþey.
+				ancak baþarýsýz olursa nullptr döndürmüyor. exception oluþturuyor.
+
+	delete p fonksiyon sentaksý 21:49 
+		delete(d);
+			Bu aslýnda void operator delete(void *vp). C'deki free gibi biþey.   
+				Bunun için önce T sýnýfý için dtor çaðýrýlýr sonra da free'deki gibi bu d adresi serbest býrakýlýr.21:52
+
+
+	new T[] sentaksý: 22:04
+		T *d = new T[n];
+
+	delete p[] sentaksý: 22:05
+		delete[]p;
+
+
+	Biz ileride bu pointer döndüren new fonksiyonlarý yerine smart pointer'larý öðrenicez. Bunlar sayesinde direkt
+		nesnelerle kontrol yapýcaz, pointer deðil nesne aslýnda bu. Bunlar:
+		std:unique_ptr
+		std:shared_ptr
+
+	unique_ptr tanýþmasý: 22:10
+		Sentaks:
+			unique_ptr<T>p = new T;
+			Bu p'nin hayatý bittiðinde p'nin gösterdiði nesne de otomatik olarak delete edilir ve hayatý bitirilir. yani dtor çaðrýlýr.
+		Örnek: 22:11
+			Mesela bir blok içerisinde yaparsak yukarýdaki tanýmlamayý, blok sonuna gelince yani p'nin scope'u tamamlanýnca
+				p'nin gösterdiði dinamik nesnenin de hayatý sonlandýrýlýr otomatik olarak.
+		Bunlarý pointer olmamasýna raðmen p->print gibi pointer gibi yani kullanabiliyoruz.
+		unique_ptr'nýn ctor ve copy assignment func'larý delete edilmiþ. yani bu türden nesneler kopyalanamýyor. güvenlik amacýyla
+			double delision engellemek için.
+			Ancak taþýmaya açýk. Taþýma yapýlýrsa bir tanesi mülkiyeti býrakýr.
+
+		
+	Dinamik ömürlü nesneler biz delete etmediðimiz sürece hayatta kalýr.
+
+	Multiple inclusion guard C++ için:		#pragma once
+		Ancak Necati hoca C usulü korumayý öneriyor.
+
+
+	auto ve dizi dönüþümü ile ilgili:
+		int a[4];
+		auto p = a;		//p'nin türü int *
+		auto &r = a;	//r'nin türü int[4]
+
+		yani sen & koymazsan auto keyword'ü hiç bir zaman referans yerine geçmez.
+
+	Tür dönüþümünde const'luk düþme durumlarý özeti:
+			const int x = 5;	//ifadesi tanýmlanmýþ olsun
+			int t = 5;
+			int& r1 = t;	//ifadesi tanýmlanmýþ olsun
+			//auto keyword'ünü direkt kullanýrsak const'luk düþer.
+				auto y = x;		//y const deðil.
+			//auto& þeklinde kullanýrsak const'luk düþmez.
+				auto & r2 = x;	//r2'nin tipi const int&
+			decltype(x)	z = 10;		//z'nin tipi const int
+			decltype(r1) r4 = t;	//r3'ün tipi int&
+	
+	
+	int x = 5;
+	vcat(x *= 2);	deðeri l value'dur. çünkü bu x'i döndürüyor.
+
+------------------------------------------------------------------------------------------------------------------------------------
+Haftanýn Ödevleri:
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Sorular:
+	
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Kitaplar:
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Mülakat Sorularý:
+
+	19:10 Bir fighter sýnýfý söz konusu olsun. Bu sýnýfýn non-static ask_help fonksiyonu çaðýrýldýðýnda, savaþçýmýz
+	hayatta olan bütün savaþçýlardan yardým istesin. (yani burada istenen þey herhangi bir instance'ýn sýnýftan oluþturulmuþ
+	bütün instance'lara ulaþabilmesi)
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------

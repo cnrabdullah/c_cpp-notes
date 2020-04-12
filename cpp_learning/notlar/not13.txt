@@ -1,0 +1,57 @@
+12.02.2020
+
+
+Haftanýn Ödevleri:
+
+Haftanýn Notlarý:
+
+	static veri elemanlarý sýnýf içinde bildirilir. tanýmlanmaz. o yüzden sadece sýnýf bildirimini ele alýrsak memory'de yer ayrýmý 
+		henüz yapýlmamýþ oluyor.
+	static veri elemanlarý sýnýf için yer kaplamaz. ayrýca yer ayrýlýr global sýnýf dýþý deðiþkenler gibi.
+
+	Syntax 19:51
+		sýnýf içinde bildirim static ile. cpp dosyasýnda static kelimesini kullanmadan taným yapýlýr. int Myclass::mx{10};
+		Kullanýmý: Myclass::mx = 10;
+
+	Statik veri elemanlarýna ilk deðer veren ifadeler önce class scope'ta aranýr. 20:07
+
+	_onemli: static veri elemanlarýna ilk deðer verme:
+		sadece static olan(yani const ya da constexpr deðil) veri elemanlarýna ilk deðer veremezsin. 
+		Const static veri elemanlarýna eðer türü integral bir tipse yani tamsayý tipinden ise ilk deðer verilebilir sýnýf içi bildirimde. 20:12
+			bool int vs olur ama mesela double olmaz.
+		ANCAK: static constexpr olarak tanýmlarsan integral yani tam sayý tipi olmasa da bildirimde ilk deðer verebilirsin.
+
+	Sýnfýn statik veri elemanlarý incomplete type olabilir. 20:21
+
+	Statik üye fonksiyonlarý this pointerýna sahip deðildir. yani instance için deðil de sýnýfýn kendisi için çaðýrýlýr.
+	Sýnýfýn içinde inline olarak tanýmlanabilir. cpp sýnýfýnda yapýlýrsa baþýna static yazýlamaz. sentaks hatasý olur.
+	Statik üye fonksiyonlarý içerisinde statik olmayan data member'lar doðrudan kullanýlamaz. 
+		(mesela parametre olarak bir nesne alýrsa onun üzerinden eriþebilir.)
+	Sýnýfýn const üye fonksiyonlarý static data memberlarý deðiþtirebilir.
+	Ayný isimdeki static olan ve static olmayan iki fonksiyon birbirinin overload'u olabilir.
+
+	C++17'de dile inline deðiþkenler eklendi. 21:10
+		ODR ihlal etmiyorlar.
+		Bu sayede sýnýf içindeki bildirimde static deðiþkenleri inline static bildirerek ilk deðer verebilirsin. 
+			(normalde const deðilse sýnýf içinde ilk deðer veremiyorduk.)
+
+	Named construct idiom 21:25
+		ctor private yapýlýp statik bir fonksiyon aracýlýðýyla nesne oluþturuluyor.
+
+	Singleton patterni 22:07-10
+	Scott Meyers Singleton: 22:25
+
+
+Sorular:
+	
+	En çok kullanýlan patternleri nette sýralayýp göz atabilirsin. 
+	Bir sýnýf içinde baþka sýnýf türünden data member varsa, size ne olur ne zaman yeri ayrýlýr?
+
+Kitaplar:
+	Design Patterns Book: gamma. bunu okumadan önce daha anlaþýlýr olan head first design patterns okusan iyi olur. telegramda.
+	Modern C++ Design: Andrei
+	Effective Modern C++: Scott Meyers
+	
+Mülakat Sorusu:
+	Nesneden kaç tane instance hayatta olduðunu nasýl bulursun? 22:28
+		static counter tanýmlayýp. ctor içinde artýr, dtor içinde azalt.

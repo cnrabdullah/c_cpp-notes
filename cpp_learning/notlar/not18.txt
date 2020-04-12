@@ -1,0 +1,119 @@
+24.02.2020
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Haftanýn Notlarý:
+
+	Tür eþ isimleri
+
+		typedef int Word;	ya da	using Word int; ???
+		class(enclosing type) içinde class(nested class) tanýmlarsak içerdeki sýnýfýn scope'u tanýmlandýðý scope kadardýr.
+		nested class, enclosing class'ýn bir memberý olduðu için eriþim kontrolüne tabidir.
+		bu içerdeki sýnýfa(nested class) eriþmek için sentaks:
+			Myclass::Data d1;
+		class içinde kullanýlan bir isim önce class tanýmýndan kullanýma kadar olan yerde aranýr, bulunamazsa global scope'ta
+			aranýr 19:42
+		eðer sýnýf içindeki inline üye fonksiyon içinde kullanýlan bir isimse, önce fonksiyon içinde, bulunamazsa ait olduðu sýnýfýn
+			tamamýnda aranýr. 19:46
+		
+		enclosing class, nested class'ýn private bölümüne eriþemiyor. _onemli
+		nested class, enclosing class'ýn private bölümüne C++11 itibariyle eriþebiliyor. _onemli
+
+		nested class private olarak tanýmlanmýþ olsun. bir üye fonsiyon da, dönüþ deðeri olarak bu nested class türünden dönüyor 
+			olsun. normal þartlar altýnda private bölüme eriþimi olmayan bir yerde bu fonksiyonu kullanarak deðiþken tanýmlayamayýz.
+				ancak auto keyword'ünü kullanmak burada bu sentaks hatasýný kaldýrýyor. cheating. (19:59)
+				
+		Üye fonksiyonun parametre parantezinin içi class scope kabul ediliyor. Burada enclosure sýnýf belirtmeden nested sýnýf ile
+			tür belirtebiliriz. Ancak bu fonksiyonun geri dönüþ deðerinde enclosure sýnýfý belirtmezsek sentaks hatasý olur 20:06
+
+	Incomplete sýnýflardan pointer ya da referans ya da statik veri elemaný alabiliriz, ancak bunlarýn dýþýndaki durumlar için
+		bu sýnýfýn header dosyasýný include etmemiz gerekir. yani iþin özeti, incomplete type kullanabilmemiz için bu türün boyutunun
+			bilinmesinin gerekmiyor olmasý lazým.
+
+	static member function'ý cpp dosyasýnda tanýmlamak istiyorsan, cpp dosyasýndaki tanýmda static keyword kullanamazsýn. sentaks hatasý.
+
+	Pimple idiomu 20:47'dan itibaren anlatýlýyor. (opaque pointer)
+
+	delegating ctor 21:36
+		bir ctor bir diðer ctor'u çaðýrýyor.
+		ctor'lar içerisinde init() vs gibi private func çaðýrarak kopyalama iþleminden kaçýnmak yerine bunu kullanabilir.
+			init() kullanmanýn dezavantajlarý:
+				- private eriþim olan her yerden bu init çaðýrýlabilir.
+				- init() fonksiyonu nesneler hayata geldikten sonra hayata geliyor da olabilir. bu durumda aslýnda postinit oluyor.
+		Sentaks: 21:56
+			...
+			Neco() : Neco(0,0,0){}
+			yani default ctor init list'te int parametreli ctor çaðýrýlýyor.
+			bu durumda int ctor içerisindeki bütün kodlar çaðýrýlmýþ oluyor DÝKKAT!
+			
+		Ctor initializer list'te delegating ctor olursa baþka eleman olamaz.
+			bunun yerine eksik kalan init edilmesi gereken üyeler in-class init yapýlabilir. ya da ctor body içerisinde deðeri set edilecek.
+			delege edilen ctor'lar birbirine de delege edebilir. fakat recursive bir yapý oluþursa sentaks hatasý YOK. undefined behaviour.
+
+	User defined literals tanýþmasý. 22:04
+		12u			ifadesi unsigned int türünden literal
+		"asdasd"s	ifadesi string türünden literal
+		mesela biz de "12.04.1993"_date ifadesini Date türünden bir sabit haline getirebiliriz.
+		
+		bunlar aslýnda bildiðimiz operator overloading fonksiyonu.
+
+	!!!		cooked:	bunlar ters olabilir hatalý yazmýþým. düzelt!!!!
+				3456m gibi bir deðer gönderiyorum
+			uncooked:
+				"3456"m gibi ya da (3,4,5,6)m gibi deðerler yolluyorum son halini o oluþturuyor.
+
+		tek harf olan literallerin çoðu alýnmýþ. o yüzden biz user-defined literals'lara _ ile baþlamalýyýz (zorunluyuz)
+			3456km yerine 3456_km gibi alt tre ile baþlatma zorunluluðu var user defined literal'ler için.
+
+		hangi türlere literal tanýmlayabileceðimiz C++ standardlarýnda belirtilmiþ. 22:18
+			ancak bu fonksiyonun geri dönüþ deðerinde bir sýnýrlama yok. 22:21
+
+		sentaks örneði:
+			double operator""_km(long double val)
+			{
+				return static_cast<double>(val*1000);
+			}
+
+			22:25'ten sonra km cm mm to metre dönüþümü ve gb mb to byte dönüþümü örneði yazýldý.
+
+------------------------------------------------------------------------------------------------------------------------------------
+Sorular:
+
+	using word int; ??? burayý kaçýrdým.
+	isim aramasý yaparken bir önceki bloktan kullanýma gelene kadar ilk bulduðunu mu kullanýyor yoksa kullanýma ek yakýn olaný mý?
+		ayný scope içerisinde ayný isimde birden fazla tanýmlama yaptýðýn için sentaks hatasý alýrsýn. bu yüzden ismin kullanýldýðý
+			blokta hangi tanýmlama varsa o esas alýnýr.
+	C'de literaller. 12u gibi?
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Haftanýn Ödevleri:
+	
+	Ödev Data ödev sýnýfý. 21:08'den itibaren anlatýlýyor.
+	Default init edersek sýnýfýn deðeri 1.1.1990 olacak.
+	Özel üye fonksiyon yazma. rule of zero
+	operatörler overload'lar global mi üye mi olacak sen karar vereceksin.
+	< ve = friend olmasý öneriliyor.
+	++ ve -- neden hem üye hem de global olarak verilmiþ?
+	exception handling gördükten sonra bu koda ekleme yapýlacak.
+		bunun yerine exit failure ile çýkýþ yap.
+	kod tekrarýndan mümkün olduðunca kaçýnmalýsýn.
+	mesela biz de "12.04.1993"_date ifadesini Date türünden bir sabit haline getirebiliriz.
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Mülakat Sorularý:
+
+	20:37 pimpl idiomu. 20:49'dan itibaren implementasyonu yapýlýyor. (opaque pointer)
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Kaynaklar:
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------

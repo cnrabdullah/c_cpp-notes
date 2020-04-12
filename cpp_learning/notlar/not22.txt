@@ -1,0 +1,128 @@
+04.03.2020
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Haftanýn Notlarý:
+
+	ADL - Argument Dependent Lookup
+		Bir fonksiyon çaðrýsýnda kullanýlan argümanlar bir isim alanýnda tanýmlanmýþ isimler ise, bu fonksiyon da isim alaný içerisinde
+			olsa dahi fonksiyonu çaðýrýrken isim alaný nitelemesi yapmamýza gerek yok. Argüman hangi isim alanýnda ise fonksiyonu da o
+				isim alanýnda arar.
+		Fonksiyonun birden fazla argümaný varsa ve bu argümanlar farklý namespace'ler içerisindeyse her birinin namespace'inde arar.
+		Fonksiyonun global scope'ta ya da namespace'ta aranmasý ile ilgili bir öncelik sýralamasý yok. Ýkisinde de arar.
+		19:45'e kadarki kýsmý not alamadým.
+		ADL'de çaðýrýlacak fonksiyonun seçilmesinde namespace scope'u ile global scope arasýnda bir sýralama yok. yani hem namespace
+			içinde hem de namespace dýþýnda olan bir fonksiyonu ADL sayesinde çaðýrýyorsak(yani parametrelerden birisinin namespace'i
+				biliniyorsa) ambiguity ya da func overload olur. 19:50
+
+	Nested namespace inline yapýlýrsa bu namespace içerisindeki isimleri kullanmak için þunu yapmamýza gerek olmazdý:
+		enclosing::nested::foo();	//bunun yerine direkt þöyle yapabiliriz artýk inline olduðu için:
+			enclosing::foo();	20:10
+
+	isimsiz(anonim) isim alaný 20:46
+		namespace'e isim vermiyoruz. bu durumda bu namespace'in olduðu dosyada bu namespace'in içindeki isimleri kullanabiliyoruz,
+			ancak bu dosya dýþýnda kullanamýyoruz. bu da C'deki static global tanýmlamalara benziyor. C'de isimlerin(deðiþken ya da
+				fonksiyon) tanýmlandýðý dosya dýþýnda kullanýlmasýný/görülmesini istemiyorsak static tanýmlama yapýyorduk.
+
+	namespace alias 20:52
+		namespace s = std;	//bu þekilde sanki type alias yapmýþýz gibi std gereken yerlerde s kullanabilir. örnek:
+			s::string s1;
+		amaç ne?
+			mesela namespace'lerin de isimlerinin çakýþma ihtimalini ortadan kaldýrmak için kullanabiliriz. esas namespace'e uzun ve
+				çakýþma olmayacaðýna emin olduðumuz bir isim veririz. kullanacaðýmýz yerde ise namespace alias ile kullanmasý daha kolay
+					bir isim veririz.
+		lokal düzeyde de namespace alias yapabiliriz.
+
+	raw string literals 21:15
+		string literallerini yazarken escape karakter gerektiren durumlarýn oluþturduðu karýþýklýðý engellemek amacýyla
+			yeni bir string literal tanýmlanmýþ.
+		sentaks:
+			R"(xxx)"		//burada xxx olan yere istediðimiz yazýyý yazabiliriz. escape karakter gerektirmez. alt satýra geçsek dahi
+				yazýya devam edebiliriz.
+		örnek:
+			const char* p = R"(iste bizim yazimiz buradan basliyor. mesela " karakterini yazdim
+			hatta alt satira gectim ama bir problem yok
+			)";
+		eðer yazýnýn içinde )" geçerse nþa'da yine problem olmasý lazým. bunu engellemek için biz delimitterý istediðimiz gibi
+			deðiþtirebiliyoruz. bunun için " karakterinden sonra ve önce istediðimiz delimitterý yazabiliriz:
+				R"xx(normalde )" burada hata olacak)xx";		//xx delimitterýný biz belirledik.
+
+	kalýtým tanýþma 21:36
+		bir sýnýfýn tamamýný devralýp üzerine ekleme yaparak yeni bir sýnýf oluþturacaðýz.
+
+	super class ya da parent class -> araba
+		genel oop terimlerinde bu þekilde kullanýlsa da C++ terminolojisinde biz buna base class diyoruz.
+	sub class ya da child class -> mercedes
+		genel oop terimlerinde bu þekilde kullanýlsa da C++ terminolojisinde biz buna derived class diyoruz.
+
+	Incomplete type'larýndan kalýtým yoluyla yeni bir sýnýf oluþturamayýz! _onemli
+
+	C++ dilinde 3 ayrý kalýtým kategorisi var. public inheritance, private kalýtým ve protected kalýtým
+
+	Kalýtým Sentaks:
+		class Der : public Base{		
+		
+		};
+		Eðer access specifier belirtmezsek default olarak private kalýtým yapýlýr. Eðer class anahtar sözcüðü ile 
+			deðil de struct anahtar sözcüðü ile kalýtým yaparsak ve access specifier belirtmezsek default olarak 
+				public kalýtým yapýlýr.
+
+	Kalýtýmda isim arama kurallarý:
+		myder.f1();
+			önce nokta operatörünün solundaki isimde aranýr.
+			bulunamazsa taban sýnýfa bakýlýr. yani en içteki sýnýftan en dýþa doðru arama devam eder bulunana kadar.
+				istersek direkt soldaki isimde aratmak yerine dýþ sýnýflardan birinde aratmak istiyorsak:
+					myder.Base::f1();
+
+	Kalýtýmda eriþim kontrolü:	22:16
+		sýnýflarýn protected bölümü, kalýtým yoluyla kendilerinden elde edilecek sýnýflara açýk. fakat taban sýnýfýn kendi 
+			client'larýna kapalý. bu bölüme türemiþ sýnýf üzerinden client kodlar yine bu protected bölüme eriþemez. yani
+				main'de myder.pro_func(); þeklinde eriþemeyiz. main'de yalnýzca public bölüme eriþebiliyoruz. 22:20
+		
+
+------------------------------------------------------------------------------------------------------------------------------------
+Sorular:
+
+	19:45'e kadarki kýsmý not alamadým.
+	19:45 sýnýfýn public fonksiyonunu namespace vermeden kullanabiliyormuþuz. peki bu public fonksiyonun sýnýf türünden parametresi 
+		olmasaydý yine de kullanabilir miydik?
+	19:52'deki endl örneðini anlamadým. üye fonksiyon olunca neden çaðýramýyoruz?
+	20:03'teki ali veli olayýný kaçýrdým
+	Myclass m1;	//tanýmlamasýnda default ctor mu çaðýrýlýr? Myclass m1{} yapmadýk.
+		Myclass m1(); yaparsak fonksiyon çaðrýsý olur dimi?
+	20:19daki a:b: örneðini anlamadým.
+	nested namespace'e using yaparsak enclosing namespace içindeki isimleri de kullanabilir miyiz? 20:59'daki örnekte mesela.
+		hayýr.
+	kalýtým mülakat sorusu esas amacý dinleyip tanýmýný yaz.
+	composition neydi ya?
+	kalýtýmýn baþýný tekrar dinle... 21:45e kadar en az.
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Haftanýn Ödevleri:
+	
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Mülakat Sorularý:
+
+	19:54 nesnenin kendisi argüman olmasa da adl geçerli. yani Myclass* türünden ya da std::vector<Myclass> türünden vs. olabilir,
+	20:24'ten itibaren old_version new_version anlatýmý çok faydalý. mutlaka not et.
+	kalýtým ne iþe yarýyor? 21:38 _onemli
+		esas amaç:	farklý türden nesneleri, bunlarýn ortak özelliklerine dayanarak ayný türdenmiþ gibi iþleme kolaylýðý saðlar.
+			böylece eskiden yazýlmýþ kodlarýn daha sonradan yazýlan kodlarý kullanmasýný saðlamak. kodda deðiþiklik gerektiðinde
+				varolan sýnýfý deðiþtirmeden ekleme yaparak kullanabilmek.
+		yan amaç: var olan kodlardan yeni kodlar oluþturmak. code reuse
+	22:23 klasik kalýtým sorularý
+
+------------------------------------------------------------------------------------------------------------------------------------
+Kaynaklar:
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------

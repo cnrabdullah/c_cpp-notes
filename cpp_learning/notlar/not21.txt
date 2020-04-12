@@ -1,0 +1,114 @@
+02.03.2020
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Ders Notlarý:
+
+	string dönüþümleri:
+		sto ile baþlayan, string baþlýk dosyasýnda bildirilen global fonksiyonlar
+		stod(str, size_t *idx=nullptr)	ile double sayýyý stringden alabiliriz. idx deðeri ile bize sayýyý kaçýncý en son bulduðu
+			indeksin sonraki deðerini söyler. ihtiyaç duymuyorsak default parametre olduðu için yollamayabiliriz. 
+			idx=0 ise bulamamýþ demektir.
+
+		to_string()	ile sayýlarý yazýya dönüþtürebiliriz
+		str.substr(idx=0,n=npos) ile string'den yeni stringler oluþturabilir miyiz.
+
+		fonksiyonlar bizden bir dizi adresi istiyorsa ve uzunluk parametresi de isteniyorsa, burada taþma tanýmsýz davranýþ. yani 
+			dizinin boyutundan büyük bir uzunluk gönderirsek sýkýntý.
+		parametre string ise ve size_type isteniyorsa uzunluðu taþýrmamýz problem deðil. string sonuna kadar iþleme alýr.
+		const char *p, size_t size	yani data tipinde tanýmlamasý varsa nullptr yollamak tanýmsýz davranýþ.
+
+	karþýlaþtýrma operatör overloading fonksiyonlarýnýn yerine neden compare kullanmalýyýz?
+		1: çünkü compare fonksiyonu int dönüyor karþýlaþtýrma operatörleri bool dönüyor. compare sonucunda büyük mü küçük mü eþit mi
+			anlayabiliyoruz tek fonksiyonda.
+		2: indeks ve boyut vererek substring ile karþýlaþtýrma da yapabiliyoruz. yani þurasýndan itibaren karþýlaþtýr gibi... 20:03
+
+	getline(cin,str) ile standart giriþten yazýlan satýrý str'ye alabiliriz.
+	insert fonksiyonu iterator return eder. dönen bu iterator iþlem yapýlan konumu gösterir. 		
+	fakat erase fonksiyonunda iþlem yapýlan konum silinince sonraki elemanlar buraya kaydýrýlacak ve geri dönüþ olarak bir sonraki 
+		elemanýn konumu döndürülecek.
+
+	begin ve end fonksiyonlarý artýk global olarak da bulunuyor. bunu dizilerin baþlangýç ve bitiþ konumunu göstermek için 
+		kullanabiliriz 20:25
+
+	namespace 20:46
+		isim alaný, büyük projelerde isim karýþýklýðýný engellemek için isimleri bir kaba koyarak kullanmayý saðlayan bir SCOPEtur.
+		sentaks class gibi ancak sonunda noktalý virgül yok:
+			namespace neco{
+			
+			}
+
+	artýk dosya yerine namespace ifadesini kullanýyoruz. name space tanýmý içinde herþeyi tanýmlayabiliriz.
+	namespace'ler de isim aramaya ve scope kurallarýna tabi. 
+	eriþim kontrolü kavramý yok.
+	namespace içerisinde tanýmlanan isimler dýþarýda kullanýlamaz. UNLESS, çözünürlük operatörü :: kullanmadýðýmýz sürece
+		ayný dosyada kullansak dahi çözünürlük operatörü belirtilmeden kullanýlamaz.21:10
+	namespace içerisinde tanýmlanan isimler global isim alanýnda tanýmlanmýþ gibi statik ömürlü olacaktýr.
+
+	ayný scope içerisinde ayný isimde birden fazla namespace olabilir. bu durumda bu iki namespace derleyici tarafýndan
+		tek bir namespace olarak ele alýnýr _onemli 21:20
+			
+	bir kütüphaneyi namespace içine almak için:
+		cpp dosyasýný namespace içine alabilirsin. sonrasýnda header dosyasýnda tek tek namespace ile isim kullanmak yerine
+			header dosyasýný da ayný namespace içine alabilirsin.
+
+	namespace içinde namespace yani nested namespace'ler de standart kütüphanede sýkça kullanýlýyor.
+
+	Çözünürlük operatörü kullanmadan namespace bildirme yöntemleri 3 adet	(21:55)
+		1: using declaration:		using std::cout;
+			namespace'i direkt deðil de namespace içindeki bir ismi niteyelerek bildirilir.
+			bu bir bildirim olduðu için bir scope'u vardýr. yani mesela bir blok içine alýrsak sadece orada geçerli olur.
+				bu kullaným daha güvenli. ancak kullanýlacak isim artýk namespace olmadan kullanýlabileceði için bu isimde 
+					baþka bir tanýmlama daha yapmak sentaks hatasý olur. 22:08
+			namespace'teki ismi using declaration scope'una enjekte ediyor. notu artýr. 22:23
+
+		2: using namespace:			using namespace std;
+			direkt namespace'i kullanabilmek için. 22:13
+			namespace'teki ismi using declaration scope'una enjekte etmiyor. notu artýr. 22:23 _onemli
+				yani ayný scope'ta namespace içinde olan isimle ayný isimde bir tanýmlama yaparsak redefiniton olmaz,
+					ambigition olur. _onemli
+		
+		3: ADL(argument dependant lookup - koenig lookup) 21:57
+			diðer derse kaldý
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Sorular:
+
+	compare'in baþýný kaçýrdým 19:58
+	insert'ü kaçýrdým 20:14
+	20:20den itibaren araya kadar kaçýrdým.
+	RAII neydi?
+	22:20'deki ambiguity durumunu notlara ekle
+
+------------------------------------------------------------------------------------------------------------------------------------
+Haftanýn Ödevleri:
+	
+	19:42'de mülakat sorusu
+	yazýdaki son abdullah yazýsýný silin. 20:44
+		bu ödevlerde döngü kullanma
+
+------------------------------------------------------------------------------------------------------------------------------------
+Mülakat Sorularý:
+
+	19:42'de mülakat sorusu
+	using bildirimini gereksiz kullanma ile ilgili öneri: 22:27
+		header dosyalarýnda using direktifi kullanma! belki inline fonksiyon içinde kullanýlabilir..
+
+	ayný blok içinde ayný isimde iki adet deðiþken tanýmlanmýþ olsun. bunlarýn aþaðýsýnda da bu ismi kullanalým. hangi isim ele alýnýr?
+		cevap: ayný scope içerisinde ayný isimde iki farklý tanýmlama yapmak sentaks hatasýdýr.
+		örnek:	{
+					int x = 5;	
+					int x = 6;	//redefiniton error
+					int y = x;
+					cout << y;	
+				}
+
+------------------------------------------------------------------------------------------------------------------------------------
+Kaynaklar:
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------

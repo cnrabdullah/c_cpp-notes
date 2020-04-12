@@ -1,0 +1,64 @@
+------------------------------------------------------------------------------------------------------------------------------------
+
+Tekrarlarda Kalýnan Yer:		
+	
+	not23 tekrar ettim.
+
+Videoda Kalýnan Yer:
+
+	2020_03_11 20:05S
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+Ödev Tamamlanma Durumu:
+
+	Date sýnýfý ctor'lar ve static üye fonksiyonlar tamamlandý...
+	
+	https://github.com/necatiergin/cpp_kursu_odevleri/tree/master/cpp_basic
+	https://github.com/necatiergin/cpp_kursu_odevleri/tree/master/basic_concepts
+	https://github.com/necatiergin/cpp_kursu_odevleri/tree/master/function_overloading
+	https://github.com/necatiergin/cpp_kursu_odevleri/tree/master/type_deduction
+	https://github.com/necatiergin/cpp_kursu_odevleri/tree/master/references
+	https://github.com/necatiergin/cpp_kursu_odevleri/tree/master/classes
+	https://github.com/necatiergin/cpp_kursu_odevleri/tree/master/special_members
+	https://github.com/necatiergin/cpp_kursu_odevleri/blob/master/fraction_odevi.md
+	https://github.com/necatiergin/cpp_kursu_odevleri/tree/master/std_string
+	https://github.com/necatiergin/cpp_kursu_odevleri/blob/master/vector_odevi.md
+
+	function_overloading:
+		fo_14 yapýldý.
+
+	basic_concepts:
+		basic_01 yapýldý.
+
+	c_cpp:
+		c_05 yapýldý.
+
+	type_deduction:
+		td_14 yapýldý.
+
+	std_string:
+		sadece string_01.md yapýldý. 10-15-18-19-20-21-22 numara hariç
+		
+	date sýnýfý ödevi:
+		yarým kaldý
+		
+	fraction sýnýfý ödevi:
+		baþlamadým
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+Sonraya Býrakýlanlar:
+
+	- notlarda bahsedilen ve gruba atýlan kitaplarý Kitaplar klasörüne indir.
+	- github'da hangisi çaðrýlýr sorularýný çöz.
+	- incomplete ve complete type'larý çalýþ C için
+	- opaque pointer - handle body - cashire cat - pimpl idiomlar: 
+		yapýnýn içeriklerini saklamak istiyorsan yapý içeriðindeki deðiþkenleri ayrý bir struct'a taþýyýp esas yapýya sadece 
+		buradan bir pointer verebilirsin.
+	- C'de struct veri elemanlarýný nasýl saklarsýn? eriþilmesini deðiþtirilmesini istemiyosan
+	- isocpp'den inline fonksiyonlar bölümü okunacak. hoca'dan kaynak istendi. 08.02.2020
+	- not21 ve string kýsmýný üstünkörü geçtim
+	- date ve fraction ödevini yapmadým
+	
+------------------------------------------------------------------------------------------------------------------------------------

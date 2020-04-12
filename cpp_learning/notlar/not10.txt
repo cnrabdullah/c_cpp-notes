@@ -1,0 +1,52 @@
+05.02.2020
+
+
+Haftanýn Ödevleri:
+
+Haftanýn Notlarý:
+
+	Default ctor'u kendisi yazarsa class mx{}; tanýmlamasýnda data member'lar sýfýrlanýr.
+		ancak biz default ctor kendimiz oluþturup data memberlarý init etmezsek sýfýrlama yapýlmamýþ olur.
+	Default etme iþlemi yalnýzca sýnýflarýn özel üye fonksiyonlarýnda yapýlabilir.
+	Fonksiyonlara delete yapýlsa dahi o fonksiyon func overload seçenekleri arasýna girer. 
+		Delete edilmiþ olan seçilirse sentaks hatasý olur.
+
+	Default member initialization Cpp11 ile gelmiþ. Sýnýf içerisinde data member'a ilk deðer atanmasýdýr.
+		int mx = 10; olur int mx{10}; olur fakat int mx(10); olmaz. Diziye boyutunu bildirmeden ilk deðer verilemez.
+
+	Sýnýfýn const üye fonksiyonunun içinde bir data member deðiþtirmek istiyorsak bu data member baþýna
+		mutable anahtar sözcüðü eklenebilir. Bu data member sýnýfýn durumunu aslýnda problem domaininde deðiþtirmiyorsa
+		bu þekilde const fonksiyonlar içinde de deðiþtirilebilmesini saðlayabiliriz.
+
+	Copy constructor oluþma senaryolarý:
+		Myclass m2 = m1;	þeklinde m1 ve m2 ayný sýnýf türünden olmak kaydýyla oluþturulan sýnýfta.
+		void foo(Myclass m) fonksiyonuna çaðrý yapýlýrsa oluþturulacak local sýnýf için 
+		Myclass foo() fonksiyonu return edeceði sýnýf için de geçici bir sýnýf oluþtururken.
+
+	Copy ctor nonstatic public inline olarak yazýlýr derleyici tarafýndan.
+	Copy ctor imzasý þudur: Myclass(const Myclass &r);
+	Otomatik oluþturulan copy ctor pointerlarý da birbirine eþitleyeceði için iki farklý nesnenin içindeki pointerlar ayný adresi 
+		gösteriyor olacak. Bu tehlikeli durumun yaþanmamasý için bu durumlarda cctor'u biz yazmalýyýz.
+
+	String sýnýfý yazdýk. 21:43
+
+	Bir sýnýfýn dtor'unu bizim yazmamýz gerekiyorsa cctor'u da biz yazmalýyýz.
+	Ya da cctor'u delete edebiliriz.
+
+	Copy assignment function:
+		copy ctor gibi ama sýnýf oluþtururken deðil atama yaparken çaðýrýlýr.
+		imzasý: Myclass &operator=(const Myclass &other)
+		
+
+Sorular:
+
+	default constructor neden yazmalýyýz onu anlamadým. myclass = default;
+
+	int mx=10;
+	myclass() = default dediðimizde ne oluyor ki? demesek de ayný þey olmuyor mu?
+
+	Myclass(const Myclass &r) = default; þeklinde ctor tanýmlasak ve bunu myclass m1 = m2; desek kendisi yazar mý m2'den kopyalayarak?
+		cvp: evet yazar. 21:14
+
+	Hocanýn yazdýðý String türünü kendin yaz.
+	Dersin sonundaki *this neden koyduk?

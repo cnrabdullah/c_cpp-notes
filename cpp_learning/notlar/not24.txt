@@ -1,0 +1,145 @@
+09.03.2020
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Ders Notlarý:
+
+	static type - statik tür	19:37
+	dynamic type - dinamik tür
+
+	virtual dispatch 19:43
+		sanal fonksiyona yapýlan çaðrýda base sýnýfýn fonksiyonu mu yoksa türemiþ sýnýfýn override fonksiyonu mu çalýcak mekanizmasý.
+		sanallýk mekanizmasýnýn devreye girmesi için yani override fonksiyonunun çalýþmasý için ptr ya da ref ile çaðrý yapmak gerekir.
+			nesne yoluyla yapýlan fonksiyon çaðrýlarýnda sanallýk mekanizmasý devreye girmiyor.
+		burada bahsedilen duruma örnek: car* türünden olan pointer'a audi* türünden bir pointer gönderilerek fonksiyon çaðýrýlmasý. 19:48
+
+	non-virtual idiom 19:48
+		sanal fonksiyonlarý private ya da protected bölüme taþýyarak, bu fonksiyonlarýn public interface'te bir fonksiyon içerisinde
+			çaðýrýlarak yine virtual fonksiyon devreye sokuluyor. Bu sayede nesne ile çaðrý yapsak da sanallýk devreye giriyor.
+		yani aslýnda yapýlan þey þu: biz fiat nesnesi aracýlýðýyla car sýnýfý içindeki non-virtual fonksiyonu çaðýrýyoruz. bu fonk
+			içerisinde de sanal olan fonksiyon çaðýrýlýyor. buradaki sanal fonksiyon çaðrýsý aslýnda this pointer eriþimi ile yapýldýðý
+				için böylece yine sanallýk devreye girmiþ oluyor.
+			
+	run-time polimorfi nasýl çalýþýyor?	19:53 _onemli
+		bir sýnýfý polimorfik hale getirdiðimizde sýnýf boyutu bir pointer boyutu kadar artar. bunun sebebi polimorfik taban sýnýf
+			nesnesinin içine konulan virtual pointer'dan geliyor. derleyici Der sýnýfý hayata gelirken bu vptr'e bir veri yapýsýnýn
+				adresi ile ilk deðer verir. bu veri yapýsý virtual function table oluyor.
+		bellek maliyeti:
+			her instance baþýna bir pointer artýyor. bin adet nesne oluþtursan yüklü bir mmemory artýmý olur.20:09
+			her sýnýf baþýna da bir adet virtual function table tutuyor. 
+		iþlem gücü maliyeti:
+			her nesne için vptr'nin initialize edilmesi
+			her sýnýf için sanal fonksiyon tablo oluþturma maliyeti
+			hangi fonksiyonun çaðýrýldýðý compile time'da anlaþýlamýyorsa, fonksiyon çaðrýsýnda ilave maliyet var. ptr dereference
+
+	virtual function table 19:59
+		derleyici, polimorfik olan bütün türemiþ sýnýflar için bir sanal fonksiyon tablosu oluþturur. bu tablo içerisinde bu sýnýfýn
+			sahip olduðu virtual override edilmiþ fonksiyonlarýn adresleri tutulur. her türemiþ sýnýf için ayrý bir tablo bulunur. 
+				mesela fiat için, mercedes için vs ayrý ayrý. Bir fiat sýnýfý hayata gelirken derleyici bu fiyat sýnýfýnýn içindeki 
+					car sýnýfýnýn içindeki vptr adresine, fiat sýnýfýnýn virtual function table adresi ile ilk deðer verir.
+		pointer ya da ref aracýlýðýyla run time polimorfism iþletilirken aslýnda þu oluyor. carptr->vptr[1]();
+
+	Eriþim kontrolleri statik türe baðlý olarak yapýlýr. Yani virtual dispatch mekanizmasý ile client kodda türemiþ sýnýfýn
+		private bölümündeki sanal fonksiyona ptr ya da referans yoluyla çaðru yapmak sentaks hatasý deðil.
+	override fonksiyonlarýn base sýnýftakinden farklý access belirteci alanlarýnda tanýmlanmasý da sentaks hatasý deðil. 20:19
+
+	Constructor ve dectructor içerisinde yapýlan sanal çaðrý fonksiyonlarý, sanallýk mekanýzmasýna baðlanmaz! _onemli 20:30
+		Normalde non-virtual idiomdaki gibi üye fonksiyon içinden sanal fonk çaðýrýnca override olan çalýþýyordu. Ama burda deðil.
+		Çünkü, türemiþ sýnýf nesnesi hayata gelirken önce içindeki base sýnýf nesnesi hayata gelir. bu sebepten der sýnýfý içindeki
+			base sýnýf ctor'u çalýþýrken aslýnda der sýnýfý daha hayata gelmemiþ oluyor. 20:31
+		Çünkü, türemiþ sýnýf hayatý biterken bu sefer ters sýrada: önce der sýnýfý kaynaklarý geri verilecek, sonra base kaynaklarý.
+
+	virtual ctor idiomu 20:49 - 21:06
+		C++'ta virtual ctor tanýmý diye biþey yok. sentaks hatasý.
+		Ancak bir pattern ile oluþturabiliyoruz:
+			base sýnýfta bir pure virtual clone fonksiyonu yazýp bu fonksiyonda yeni car nesnesi oluþturabiliriz.
+
+	virtual dtor 21:06
+		C++'ta virtual dtor VAR.
+		virtual dispatch ile oluþturulan nesnelerin hayatý sonlandýrýlýrken, çoðunlukla taban sýnýf pointerý üzerinden iþlem yapýyoruz.
+			mesela:		car* p = new audi;		delete p;
+				bu örnekteki kullanýmda compile time'ta statik olarak car nesnesi görüleceði için delete iþleminde yalnýzca p'nin
+					içindeki car nesnesinin dtor'u çaðýrýlacak. yani audi tipinden olan p nesnesindeki audi kaynaklarý geri verilmeyecek.
+		kaynak sýzýntýsýndan ziyade bir de runtime hatasý ihtimali var:
+			der içindeki base sýnýfý her zaman der sýnýfýnýn baþýna yerleþtirilmeyebilir. yani der sýnýfý adresi ile der'in içindeki
+				base sýnýfý adresi ayný olmayabilir. bu durumda delete çaðrýldýðýnda belki de der sýnýf boyutunun ortalarýnda biryerdeki
+					adres free edilecek. çünkü delete p dediðimizde audi deðil car statik türü için delete iþlemi yapýlýyor. 21:15
+		virtual dtor tanýmlayarak virtual dispatch sayesinde nesne adresi hangi türdense runtime'da o nesne için dtor çaðýrýlýr.
+		YANÝ: eðer dinamik türemiþ sýnýf nesnesini, taban sýnýf pointerý ile yöneteceksek, taban sýnýf dtor'u virtual olmalý. 21:20
+		ÞÖYLE bir öneri var: 21:21 _onemli
+			taban sýnýf dtor'u 
+				ya public virtual olacak.
+					böylece delete ile client kodlar taban sýnýf ptr'si ile türemiþ sýnýfýn hayatýný sonlandýrabilecek.
+				ya da protected non-virtual olacak.
+					böylece client kodlar kendileri sonlandýramayacak hayatýný.
+		Bu arada: virtual yapmak istiyorsak ancak kodunu yine derleyicinin yazmasýný istiyorsak: _onemli 21:24
+			virtual ~base() = default; yaparak virtual yaparsýn ancak derleyiciye yazdýrýrsýn.
+
+	Bir sýnýfýn kalýtým amaçlý kullanýlacaðýný gösteren iki tane tipik iþaret var. _onemli 21:25
+		- sýnýfýn protected bölümü olmasý.
+		- destructor'ýnýn virtual olmasý.
+
+	Sýnýf içi using bildirimleri:	21:28
+		typedef int myInt;	ile using myInt = int; bildirimi ayný C++11 ile gelen bir araç
+		Türemiþ sýnýf içerisinde using bildirimi yaparak base sýnýftaki bir ismi der sýnýf'a enjekte edebiliriz. Sentaks:
+			using Base::func;
+			using Base::m1;
+		Bunun faydasý þurada oluyor: mesela base sýnýfýn protected bölümündeki bir ismi client'lara açmak istiyoruz. Bunun
+			için wrapper yazmak yerine protected bölümdeki ismi bu sentaks ile der sýnýfýnýn public bölümüne enjekte 
+				edebiliriz. 21:50
+		Ýkinci önemli bir fayda:   inherited ctor	_onemli 22:05
+			mesela base sýnýfýn int parametreli ctor'u var diyelim. der sýnýfýndan nesne oluþtururken bu nesnenin içindeki
+				base sýnýfýnýn int parametreli ctor'la hayata gelmesini istiyoruz. Bunun için normalde der sýnýfýna da int 
+					parametreli ctor yazýp, bunun ctor init listide base'in int parametreli ctor'una çaðrý yapmamýz gerekiyordu.
+						bunun yerine der sýnýfý içerisinde using Base::Base; bildirimi yaparak base'in tüm ctor'larýný der'in
+							içine enjekte etmiþ olduk. der sýnýfýndan nesne üretirken base ctor'u gibi çaðrý yapabiliriz.
+						
+	variant return type , covariant 22:08
+		normalde base sýnýftaki virtual fonksiyonu der sýnýfý içinde ayný imza fakat farklý geri dönüþ deðeri ile tanýmlarsak
+			sentaks hatasý oluyordu. bunun bir istisnasý covariant return type oluyor. þartlar:
+		- geri dönüþ deðerleri pointer ya da referans türünden olmalý
+		- base sýnýfýn geri dönüþ deðeri B* türünden, der sýnýfýn geri dönüþ deðeri A* türünden olmalý. 22:14
+			- A sýnýfý da B sýnýfýndan türetilmiþ olmalý. örnek:
+		class car{};	
+		class audi : public car{};
+		class base{
+			virtual car* func();b
+		}
+		class der{
+			audi* func() override;a
+		}
+		
+
+------------------------------------------------------------------------------------------------------------------------------------
+Sorular:
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Derste Verilen Ödevler:
+	
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Mülakat Sorularý:
+
+	Sanallýk mekanizmasý nasýl implemente ediliyor?_onemli		19:50
+		Maliyeti var mý yok mu?
+	virtual function table 19:59	
+	override virtual dispatch eriþim kontrolü 20:20
+	def argüman alan virtual fonksiyon 20:23
+		default argüman da yine compile time'da statik türe baðlý olarak ele alýnýyor. virtual dispatch olursa
+			base sýnýfýn def argüman deðeri alýnýr.
+	Global bir fonksiyonu nasýl sanal yaparsýn? _onemli 22:23	
+		cevabýný vermedi. nasýl virtual dispatch devreye sokarsýn?
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Kaynaklar:
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------

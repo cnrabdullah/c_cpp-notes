@@ -1,0 +1,139 @@
+28.02.2020
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Haftanýn Notlarý:
+
+	initializer list
+		kullanmak için <initializer_list> include edilmeli.
+
+		sentaks: 19:32
+			initializer_list<int> myList{1,2,3};
+			initializer_list<int> myList = {1,2,3};
+			auto myList = {1,2,3};
+			auto myList = {1};
+			þu geçersiz:	auto myList{1,2,3};
+
+		initializer list ELEMANLARI/ÖÐELERÝ const olarak ele alýnýr her zaman derleyici tarafýndan. 19:40
+		initializer list bir fonksiyona parametre olarak gönderilirse fonksiyon referans parametre almýyor olsa dahi referans olarak
+			gönderilir. zaten elemanlarý const olduðu için deðiþtiremiyoruz referans olsa da olmasa da. o yüzden referans olarak alarak
+				kopyalama iþlemini ortadan kaldýrmýþ oluyor.
+
+		nerelerde kullanýlýyor?:
+			container sýnýflarýn çoðunda initializer list parametreli ctor mevcut. bu sayede container hayata gelirken bizim istediðimiz
+				elemanlarla baþlýyor olacak.
+
+		_onemli: 19:58
+			eðer bir fonksiyonun hem T hem de initializer_list<T> parametreli overload'u varsa, öncelik initializer_list olan fonksiyondadýr.
+			
+	container sýnýflarda kapasiteyi azaltamýyoruz. öðeleri silsek de, reserve ile küçültmeye çalýþsak da kapasite azalma garantisi yok.
+	bunun yerine kapasiteyi o anki size'a büzmek için:
+		str.shrink_to_fit();	
+
+	assign fonksiyonunu kullanarak = operator fonksiyonunun yapamayacaðý atamalarý da yapabiliriz. mesela indeks vererek istediðimiz
+		yerden baþlayarak istediðimiz boyutta atama yaptýrabiliriz. 20:24
+
+	Necati Hoca string sýnýfýný hýzlýca özetliyor: 20:05 _onemli
+		
+	clear() fonksiyonu container sýnýflarýn tüm elemanlarýný siler.
+	erase() fonksiyonu iki adet default argümana sahip. yani aslýnda tanýmý þöyle:
+		erase(size_type idx = 0, size_type n = string::npos)
+		bu fonksiyon ile istediðimiz indeksten istediðimiz boyutta silme yapabiliriz. silinen bölgenin devamý silinen bölgeye kaydýrýlýr.
+		_onemli: str.erase(7) dersek 7.elemaný silmez. 7'den itibaren(dahil) bütün karakterleri siler.
+		range based olarak da çalýþýr erase fonksiyonu. örnek:
+			str.erase(str.end() - 1);	//son elemaný siler. bu iþlemi str.pop_back() ile de yapabilirdik.
+
+	substr
+		str.substr(indeks,num); iki parametre de default olabiliyor.
+
+	swap() fonksiyonuyla iki string yer deðiþtirilebilir. sadece pointer'lar yer deðiþiyor maliyeti küçük.
+		str1.swap(str2); ya da swap(str1,str2)
+
+	arama fonksiyonlarý - find türevleri
+		arama fonksiyonlarýnýn hepsinini geri dönüþ deðeri size_type, baþarýsýz olursa npos dönüyor. 
+		ilk parametre her zaman aranan deðer.
+		arama fonksiyonlarýnýn hepsi default deðeri 0 olan bir indeks parametre de alýr. aramayý baþlatacaðý indeks.
+
+		rfind fonksiyonu aramayý sondan baþa doðru yapar.
+
+		str = "ali17" olsun...
+		str.find_first_of("12345") çaðrýsý aranan stringdeki karakterlerden herhangi birini ilk bulduðu yeri döner. bu örnekte 3.
+		str.find_first_of çaðrýsý bu karakterlerden herhangi birine eþit olmayan ilk bulgunun indeksini döner.
+		bunlarýn last olanlarý da aramayý tersten yapar.
+
+	str.compare üye fonksiyonu strcmp gibi.
+		str1.cmp(str2);
+			bu fonksiyon str1 büyükse pozitif deðer, ikinci büyükse negatif deðer, ikisi eþitse 0 dönüyor.
+	str.replace fonksiyonu
+		ilk parametre her zaman neyi/nereyi deðiþtirmek istediðimiz deðer.
+
+	string ve cstring dönüþümleri
+		cstring'den string'e otomatik tür dönüþümü var
+		string'den cstringe otomatik tür dönüþümü yok.
+			bunu yapabilmek için kullanýlan iki üye fonksiyon var:
+				c_str fonksiyonu. örnek:
+					const char *p = str.c_str();		//sonuna null karakterini de koyuyor.
+					c_str fonksiyonunu kullandýktan sonra str nesnesinde deðiþiklik yaparsak p pointer'ý da dangling olur.
+						yani str nesnesinde deðiþiklik yaptýktan sonra p pointerýný kullanmak tanýmsýz davranýþ.
+				data fonksiyonu. bu fonksiyon direkt string nesnesinin içinde tanýmlanan adresi dönüyor.
+					&str[0] = str.data(); mesela
+						*str.data() = 'm'	//önerilmiyor ancak bunu yapabiliriz. çoðunlukla C apilerinde kullanýlýyor.
+
+	str.copy() fonksiyonu
+		bu fonksiyon ile str stringini bir cstring'e kopyalayabiliriz. 22:13
+		str.copy(cptr,boyut);
+		bu fonksiyon kopyalamanýn sonuna null karakter koymaz, onun yerine kopyaladýðý yazý boyutunu döner. biz de bu sayýyla
+			cptr'nin sonuna null karakter koyabiliriz. data() fonksiyonu sona null karakteri de koyuyordu. ancak o fonksiyon 
+				kopyalama yapmýyordu, adresi veriyordu bize sadece.
+
+	string ve sayý dönüþümleri
+		sto ile baþlayan global fonksiyonlarý kullanabiliriz.
+		sayýdan string'e dönüþüm için to_string() fonksiyonlarý kullanabiliriz.
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Sorular:
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Haftanýn Ödevleri:
+	
+	string sýnýfý ile ilgili alýþtýrmalarý yap mutlaka.
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Mülakat Sorularý:
+
+	Hangi STL sýnýflarýný biliyorsun?
+	Ýki adet ctor çaðrýsý birbirinden () ve {} olarak farklý çaðýrýlýyor. bu durumda ne olur? 20:02
+		{} ile çaðrý yapýlýrsa initializer_list overload'u (varsa) çaðýrýlýr
+		() ile çaðrý yapýlýrsa mesela string için field parametreli ctor çaðýrýlýr.
+	string'deki bütün karakterleri hangi yollarla silebilirsin?		20:52
+		str.clear();
+		str.erase();
+		str.erase(0);
+		str.erase(0, string::npos);
+		str.erase(str.begin(), str.end());
+		str = "";
+		str = {};
+		str.resize(0);
+		str = string();
+		str = string{};
+		str = ""s;	//user defined literal
+		str.assign("");
+		str.assign({});
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Kaynaklar:
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------

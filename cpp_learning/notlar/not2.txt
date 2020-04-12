@@ -1,0 +1,57 @@
+17.01.2020
+
+Haftanýn Ödevleri:
+		c01 c05 arasý
+	
+Haftanýn Notlarý:
+	
+	C++'da otomatik tür dönüþümü yok. enum'lara sayýsal deðer atayamýyoruz. Ama sayýsal deðerlere enum atayabiliriz.
+	C++ dilinde farklý türlerin pointerlarýný birbirine atayamýyoruz. Sadece void * türüne otomatik tür dönüþümü mevcut.
+	
+	C++ dilinde nullptr bir sabittir, türü nullptr_t 	 <cstddef> 
+	
+	C++ dilinde 
+		int x=5; 	localde?: copy initialization oluyor.
+		int x;		localde?: default initialization
+		int x;		global/statikte?: zero initialization
+		int x(5);	direct initialization
+		int x();	function declaration
+		int x{} 	value initialization. local de olsa 0 olarak init edilir (_onemli)
+		int x{5} 	direct/list/uniform/brace initialization		(_onemli)
+						burada veri kaybý varsa syntax hatasý çýkar. narrowing conversion
+						most vexing parse'a engel oluyor. (20:50)
+							
+	Acronym: AAA: almost always auto
+	
+	type deduction: tür çýkarýmý
+	ilk deðer vereceðimiz yerlerde auto ile type deduction yapabiliriz. özellikle karmaþýk tanýmlama gerektirenlerde, ya da kod deðiþtirildiðinde çok faydalý.	
+	
+	soru: auto'nun 0 ile baþlatýlýp int'in maksimum deðerini geçeceði durumlarda tehlikeli olmaz mý? cevap: int x=0 tanýmlamýþsýn gibi olur.
+	
+	auto ve referanslarda ilk deðer vermek zorunlu.
+	left referansýn gösterdiði yer deðiþtirilemez. const pointer gibi. r = z demeye çalýþýrsan x = z demiþ oluyorsun.
+	
+	expression sonuna ; koyarsak statement olur
+	
+	C dilinde lValue ve rValue expression var sadece.
+	C++ dilinde ise lValue, prValue ve xValue katergorileri mevcut.
+	
+	l: value nesneye karþýlýk geliyor.
+	pr: value bellekte bir yuvaya karþýlýk gelmiyor, nesne göstermiyor
+	x: value kodda direkt isim olarak karþýmýza çýkmýyor ancak yine de bir nesneye karþýlýk geliyor
+		
+	l referansa her zaman lvalue atamalýsýn. 
+	
+	
+	C dilinde null pointer notlarýný necati hoca notlarýndan çalýþ.
+	C dilinde void * notlarýný necati hoca notlarýndan çalýþ.
+	öðren(22:00): C'de value category ve lvalue expression nedir? sað taraf ifadesi sol taraf ifadesi nedir öðren.
+	soru: value category kýsmýný komple izle.
+	
+	
+	
+	
+	
+	
+	
+	

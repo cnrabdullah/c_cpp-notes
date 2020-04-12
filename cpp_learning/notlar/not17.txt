@@ -1,0 +1,83 @@
+21.02.2020
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Haftanýn Notlarý:
+
+	Tür dönüþüm operatör overloading fonksiyonu. 19:30
+		Syntax:
+		operator int()const;
+		operator int*()const;
+		operator int&()const;
+
+		Geri dönüþ deðerini yazmýyoruz. dönüþüm yaptýðýmýz türden dönüyor her zaman.
+
+	Derleyici art arda iki adet user-defined tür dönüþümü yapmaz. 19:44
+		Fakat u-d ve standart dönüþüm yapabilir art arda sýrasý fark etmeksizin.
+		explicit anahtar sözcüðünü operatör overloadda da kullanarak bunu engelleyebilirsin.
+
+	Koþul gerektiren yerlerde sýnýfý kullanmak sentaks hatasý. Bunu engellemek için:
+		explicit operator bool()const; overload'unu tanýmlamalýyýz. 19:59
+		BU FONKSÝYONU explicit yapsan da bool dönüþüm gerektiren yerlerde kullanabilirsin. C++ 11 ile geldi.
+
+	optional 20:21
+
+	enum class: 20:24
+		enum class WeekDay : int {Sunday, Monday ...};
+		kullanýrken. direkt Monday diye kullanamayýz. WeekDay::Monday diye kullanmalýyýz.
+		access kontrol yok. dolayýsýyla friend gerekliliði de yok.
+		member function kavramý yok.
+		
+	Direkt bir sýnýfa friend'lik vermek için: (engine sýnýfý içinde car sýnýfýna mesela)
+		friend class Car; (21.02.2020 21:11)
+
+	composition tanýþma. 20:52
+		Bir sýnýf içinde baþka bir sýnýf türünden non-static data member olmasý.
+		Bu member static olsaydý incomplete type yapabiliyorduk fakat bu durumda yapamýyoruz. iki seçenek var:
+			1:member'ýn bulunduðu dosyayý include etmek
+			2:pimpl
+
+		owner sýnýf, member sýnýfýn public interface'ine sahip olmuyor. bunun için inheritance gerekli.
+		owner sýnýf, member sýnýfýn private bölümüne eriþemez.
+
+	Bir sýnýfýn constructor ana bloðuna girmeden ÖNCE sýnýfýn bütün member'larý init edilmiþ olur.
+	Bir sýnýfýn dtor ana bloðu bittikten SONRA sýnýfýn bütün memberlarý yok edilmiþ olur.
+	Yalnýzca int ctor'u olan sýnýfa member olarak sahip olan bir sýnýfýn int ctor'u yoksa sentaks hatasý. delete edilir. 21:25
+
+	Bir ctor'u sen yazýyorsan bütün member'larýn initlerini sen yapmalýsýn bu ctor'da. yapmadýklarýn default edilir.
+		Mesela cctor içinde bir member'ý sen iniy ettim diyelim, init etmediðin member'lar default ctor edilir. 22:05
+			ya da copy assignment yazarsan senin eþitlemediðin member'lar eski deðerinde kalýr. 22:12
+
+------------------------------------------------------------------------------------------------------------------------------------
+Sorular:
+
+	19:48'deki olayý anlamadým. explicit int overload yapýnca türü int deðiþkene eþitleyemez miyiz? Amaç ne o zaman?
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Haftanýn Ödevleri:
+	
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Mülakat Sorularý:
+
+	pimpl 21:04
+		ya da opaqueue pointer
+		handle idiom
+		cashire
+		nasýl yapýldýðýný anlatmadý.
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Kaynaklar:
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------

@@ -1,0 +1,139 @@
+06.03.2020
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Haftanýn Notlarý: 
+
+	Base sýnýf türünden bir pointer'a, derived sýnýf türünden bir pointer atayabiliriz. Buna upcasting denir. _onemli 19:45
+		Çok özel bir durum söz konusu deðilse deðerlerde upcasting yapmamalýyýz, pointer ya da referans ile kullanabiliriz.
+			deðerlerde upcasting yapýlmasýna object slicing deniyor. 19:48
+
+	Kalýtým ile composition benzerliði ve mantýðý 19:50
+		Kalýtýmda da aslýnda composition gibi der sýnýfý içerisinde base sýnýfý türünden bir nesne var gibi düþünebiliriz.
+			Yani der sýnýfýnýn boyutu sýnýf içindeki diðer üyelerin boyutu ile base sýnýfýnýn boyutunun toplamýna eþittir. 19:55
+		Der nesnesi hayata geldiðine önce base nesnesi hayata gelecek. _onemli 20:01
+			dtor'lar ise ters sýrada yine. 
+		bu sebepten composition'daki ctor çaðýrýlma kurallarý burada da geçerli. mesela base'in def ctor'u çaðýrýlamýyorsa 
+			der sýnýfýnýn def ctor'u da silininir. 
+		eðer default der çaðýrýldýðýnda int base çaðýrýlsýn istiyosan kendin ctor init listte yazacaksýn. 20:09-14
+		der sýnýfý içindeki base sýnýfýnýn nerede bulunacaðýný bilemeyiz. yani der sýnýfýnýn içindeki base sýnýfý ile 
+
+	Kalýtým yapýlan sýnýf için üyelerin ve base sýnýfýn hayata getirilme sýrasý:
+		Önce Der sýnýfýnýn içindeki(aslýnda görünmeyen) Base sýnýf nesnesi hayata gelir
+		Sonra Der sýnýfý içindeki diðer üyeler bildirildikleri sýrayla hayata gelirler.
+		Hayatlarýnýn bitmesi de tam tersi sýrayla gerçekleþir.
+
+	Multilevel inheritance var ise en içteki sýnýf yalnýzca bir üst base sýnýfýn ctor'a çaðrý yapabilir.
+
+	Derleyicinin fonksiyonlarý delete etme iþlemi sadece implicit durumlarda oluþur. Yani mesela senin yazdýðýn bir ctor'u derleyici
+		delete etmez. Ancak yazýmý ona býrakýrsan ve o yazarken bir hata ile karþýlaþýrsa delete edebilir.
+		
+	Hatýrlatma: herhangi bir ctor list'te biz bir member sýnýfý init etmezsek o member sýnýf için def ctor çaðýrýlýr.
+		ayný durum base sýnýfýn der sýnýf ctor'unda çaðýrýlmasý için de geçerli.	_onemli
+	Der sýnýfýnýn cctor'unu biz yazýyorsak bunun ctor init listinde base sýnýfýnýn cctor'unu da biz çaðýrmalýyýz. 20:26 _onemli
+		çünkü bir ctor'un init listi içerisinde sýnýfýn üyelerinin initini biz yapmazsak o üyeler için def ctor çaðýrýlýr. ve
+			der sýnýfýnýn base sýnýfý da aslýnda onun bir üye sýnýfý gibi sayýlýyor.
+		sentaks: Der(const Der&other) : Base(other)		//20:29
+			burada aslýnda upcasting oluyor yine.
+		bu durum operator overload'lar için de geçerli. onlarý da yazmalýsýn ayný þekilde o zaman. 20:47
+			bunun örneði 20:52'de verilmiþ. _onemli
+		biz upcasting yapýyoruz o Base tipi adres beklediði halde Der tipi adres yolluyoruz. Bunda sýkýntý yok ancak Der'in içindeki
+			Base'in adresi ile Der'in kendisinin adresinin ayný olmak zorunda olmadýðýný unutma. yani dizinin adresi ile dizinin ilk
+				elemanýnýn adresi gibi deðil bu. Der sýnýfý içindeki Base'in yeri Der sýnýfýnýn sonunda da olabilir. 20:33
+					burada önemli olan adresin türü. Yani aslýnda biz Car * türünden pointer bekleyen bir fonksiyona mercedes *
+						türünden bir ptr yolladýðýmýzda ayný adres gidiyor anlamýna gelmez. Burada sadece tür dönüþümü yapýlmýyor.
+							Burada derleyici fonksiyona Der sýnýfýnýn içindeki Car nesnesinin adresini geçiyor. _onemli
+
+
+	abstract ve polimorfic sýnýflar 21:11	_onemli
+		a:	Base sýnýf, türemiþ sýnýflara hem bir interface vermiþ hem kod vermiþ (concrete - somut sýnýf) yani normal kalýtým.
+		b:	Base sýnýf, türemiþ sýnýflara hem bir interface vermiþ hem default kod vermiþ (polimorfic class) 
+			en az bir virtual func var ise mesela. sentaks:
+				virtual func();
+		c:	Base sýnýf, türemiþ sýnýflara bir interface vermiþ fakat kod vermemiþ (polimorfic class) 
+			en az bir adet pure virtual func varsa, bu sýnýf ayný zamanda abstract class yani soyut sýnýf olur. sentaks:
+				virtual func() = 0;		//aþaðýda detaylý anlatým var.
+		
+		özet: virtual geçen herhangi bir func var ise polimorfik. ayný zamanda en az bir tane pure virtual func varsa: abstract.
+		
+	Virtual function tanýþma: 21:03
+		statik ve global fonksiyonlar virtual olamaz
+		virtual sözcüðü, fonksiyon inline deðilse tanýmda olamaz(sentaks hatasý). bildirime koymak yeterli sadece.
+		override edilmezse virtual fonksiyon çaðýrýlýr. edilirse override func çaðýrýlýr.
+		sentaks:
+			virtual void takeoff();
+		Bir VIRTUAL fonksiyon, Base sýnýf türünden pointer/referans beklerken, türetilmiþ sýnýf türünden pointer gönderilirse, 
+			virtual fonksiyonlar için türetilmiþ sýnýfýn virtual fonksiyonu çaðýrýlýr. mesela car türünden ptr bekleyen sýnýfa 
+				audi ptr gönderirsen audi için virt fonksiyon override'ý çaðýrýlýr. eðer virtual olmasaydý car'a upcast yapýlacaktý 
+					ve virtual olmayan fonksiyon car için çaðýrýlacaktý. _onemli
+		Bir önceki paragraf sadece pointer ve referans için geçerli!! eðer value ile gönderilirse Car sýnýfý için fonksiyon çaðýrýlýr.
+			virtual olmasý önemli deðil.	_onemli
+		Eðer virtual fonksiyon override edilmezse her durumda Car sýnýfýnýn fonksiyonu çaðýrýlýr.
+		Eðer taban sýnýfýn virtual fonksiyonunu, türemiþ sýnýf override ederse; türemiþ sýnýfýn bu fonksiyonu da virtual 
+			olur.	22:13 _onemli
+				Virtual yazsak da yazmasak da durum ayný.
+				Bunun amacý:
+					Audi sýnýfýndan yapýlacak kalýtýmlar da bu fonksiyonu override edebilir. Mesela Audi_A8 sýnýfý da isterse bu
+						fonksiyonu virtual olduðu için override edebilir.
+
+
+	Pure virtual function(sapsanal diyor hoca) 21:18
+		interface veriliyor ancak implementesi türetilen fonksiyona ait. bütün pure virtual fonksiyonlar override edilmeli.
+			eðer birisi dahi override edilmezse, türetilen sýnýf da soyut sýnýf olur.
+		sentaks:
+			virtual void land() = 0;
+		eðer türetilen sýnýf yani Der sýnýfý implementasyonu yapmazsa o da soyut sýnýf olur. 21:20	_onemli
+			soyut sýnýflar instantiate edilemez. yani soyut sýnýf türünden nesne oluþturamazsýn, sadece ptr ya da referans
+				oluþturabilirsin. _ onemli
+
+
+	fonksiyon override 21:52
+		türetilmiþ sýnýftaki fonksiyonun imzasý, taban sýnýftaki virtual sýnýfýn imzasýyla karþýlaþtýrýlýr:
+			imzasý farklý ise sentaks hatasý yok, override yok, overload yok
+			imzasý ayný ise fakat geri dönüþ deðeri farklý ise sentaks hatasý
+			imzasý ve geri dönüþ deðeri ayný ise override olur.
+				bu fonksiyon override oluyor. fakat yeni C++ ile artýk bir de fonksiyon'a override ekliyoruz. 21:58
+					sentaks: void start() override	//override olan her yere bu sözcüðü eklemek öneriliyor. 22:20
+
+	override ve final sözcükleri 21:59
+		override sözcüðü, fonksiyon inline deðilse tanýmda olamaz(sentaks hatasý). bildirime koymak yeterli sadece.
+		hem const hem override sözcüðü olacaksa override en saðda olmalý.	22:30
+		bunlar contextual keyword sayýlýyor. 
+		yani belirli bir durumda kullanýlýnca keyword sayýlýyor. bunun dýþýnda sayýlmýyor. bunun amacý legacy kodlarýn
+			sentaks hatasý olmasýna engel eklemek.
+				mesela int override = 10;	gibi kullanýrsak sentaks hatasý olmuyor çünkü o zaman keyword olmuyor.
+
+		
+	static binding 21:47
+		bir fonksiyon kullanýlýrken hangi fonksiyonun çaðýrýldýðý derleme esnasýnda belliyse
+	late binding 21:48
+		bir fonksiyon kullanýlýrken hangi fonksiyonun çaðýrýldýðý derleme esnasýnda belli deðilse
+
+------------------------------------------------------------------------------------------------------------------------------------
+Sorular:
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Haftanýn Ödevleri:
+	
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Mülakat Sorularý:
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Kaynaklar:
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------

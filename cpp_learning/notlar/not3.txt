@@ -1,0 +1,37 @@
+20.01.2020
+
+	Haftanýn Ödevleri:
+	
+	Haftanýn Notlarý:
+	
+	
+		Ýþaretsiz deðiþkenlerde taþma olmaz ancak iþaretlilerde taþma olur deðer yukarýya çýktýðýnda.
+		unspecified davranýþ: undefined behaviour yok yani yanlýþ birþey yok, ama derleyici farklý kod üretebilir, beklediðimiz gibi çalýþmayabilir.
+		implementation-defined behaviour: unspecified behaviour'ýn alt sýnýfý. yine derleyiciye baðlý ancak derleyici dökümantasyonunda nasýl çalýþacaðý belirtilmeli.
+		int &r = x;		deðeri ile int *const ptr = &x; ayný þey.
+		referanslarý sadece okuma amaçlý kullanacaksak: const int &r = &x;
+		const sol taraf referansý tanýmlarsak sað taraf deðeri ile ilklendirebiliriz.	
+		referanslardan dizi oluþturamayýz!
+		varsayýlan argümanýn saðýndaki bütün parametrelere de varsayýlan argüman verilmeli
+		auto keywordü ile const ya da static anahtarlarý kullanýlýrsa bu anahtarlar düþer.
+		ancak auto &ref þeklinde kullanýlýrsa const düþmez. static düþer (düþse de pek biþey deðiþmiyor aslýnda da)
+		
+		int x = 5; //iken
+		const auto* ptr1 = &x;	//const int* ptr 
+		const auto ptr2 = &x;	//int* const ptr
+		auto* const ptr1 = &x;	//int* const ptr
+		auto const ptr2 = &x;	//int* const ptr
+		const* auto ptr1 = &x;	//sentaks hatasý
+		auto const* ptr1 = &x;	//const int* ptr 
+	
+	Sorular:
+		referanslarda +1 vs gibi dizinin sonraki elemanýna eriþebilir miyiz?
+		C'de diziye pointer tanýmlamaya bak
+		22:03: const char * ile const char[5] arasýndaki fark nedir?
+		
+		referansa array atamaya bak. c: referanslardan array oluþturulamaz. array'e referans atanabilir.
+		referans to referans yapma þansýmýz var mý? int * &r gibi biþe olur mu? c: bu ifade referans to pointer olur.
+		21:55'e kadar olan kýsmý tekrar izle auto x = expression bölümü
+		auto ve const iliþkilerine bak.
+		variedic fonksiyona c notlarýndan göz at.
+		

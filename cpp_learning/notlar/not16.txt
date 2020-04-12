@@ -1,0 +1,64 @@
+19.02.2020
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Haftanýn Notlarý:
+
+	Wrapper mint sýnýfýný yazýyoruz.
+
+	küçüktür ve eþittiri yazdýktan sonra diðer karþýlaþtýrma operatörlerini bu fonksiyonlarý kullanarak yazdýk. 16:45
+
+	Aritmetik operatörleri overload ediyorsan iþlemli atama(+= -= vs) operatörlerini de kendin overload etmelisin. 
+	
+	++ operatörünü postfix(son ek) olarak overload edebilmek için argüman olarak dummy int gönderiyoruz.
+
+	[] operatör fonksiyonu için hem const olan hem de const olmayan operatör fonksiyonlarýný yazýp overload etmeliyiz.
+		Aksi durumda const olan nesneyi çaðýrdýðýmýzda deðiþtirilebilir olur. 20:59
+		Bunu aslýnda buna benzer container ya da vektör sýnýflarýnda da yapmalýyýz.
+
+	-> operatör fonksiyon üye olmak zorunda. global olamaz.
+		bu operatör binary olmasýna raðmen unary gibi overload edilir.
+
+	 ptr pointer türünden bir sýnýf olsun. 21:21
+		ptr->func() çaðrýsý ile  ptr.operator->()->func() çaðrýsý ayný
+
+	endl'nin hikayesi: 21:50
+		cout << "\n";
+		cout.flush();
+		yapýyor. sadece newline gerekliyse bunu kullanma.
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Sorular:
+
+	Geçici nesne oluþturma yöntemleri neydi?
+	+= ile ilgili açýklamayý dinle. 19:59
+	20:02 anlamadým.
+	dinamik nesne oluþturma sentakslarýný hatýrla.
+	mint sýnýfýný komple baþta incele
+	ostream << ve >> overload'larýný yazmayý incele.
+	21:21 -> operatörünü tekrar izle.
+	void foo(); ile void foo(int x=5); overload mudur?  bunlara foo() çaðrýsý yaparsak?
+	22:28'de get_count tanýmlamasýný göremedim.
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Haftanýn Ödevleri:
+	
+	
+
+------------------------------------------------------------------------------------------------------------------------------------
+Mülakat Sorularý:
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Kaynaklar:
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------

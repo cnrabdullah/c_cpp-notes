@@ -1,0 +1,58 @@
+29.01.2020
+
+
+Haftanýn Ödevleri:
+	
+
+
+Haftanýn Notlarý:
+
+	Sýnýf öðeleri þunlar olabilir:
+
+		1-data members: 
+			a-nonstatic data members 
+				x-nonconst member functions
+				y-const member functions
+			b-static data members
+		2-member functions:
+			a-nonstatic member functions 
+			b-static member functions
+		3-member types
+		
+	Kullanýlan ismin derleyici iþlem sýrasý
+		Name Lookup
+		context control
+		access control
+		
+	***Name Lookup Kurallarý:
+		Önce ismin kullanýldýðý en içsel bloktan isminin aþaðýya doðru ismin kullanýldýðý yerde arar.
+		Bulamazsa bir dýþ bloðun baþýndan bu ismin kullanýldýðý yere kadar arar. Bulamazsa en son global scope'ta arar.
+		Eðer . operatörü(dot) -> operatörü(arrow) ya da çözünürlük operatörü(::) kullanýldýysa(baþýna sýnýf ismi vermek kaydýyla)
+			isim direkt class scope'ta aranýr.
+		Baþýna sýnýf ismi vermeden direkt ::x diye kullanýlýrsa bu isim global scope'ta aranýr. Bulunamazsa hata verir. 
+			Yerel deðiþken olarak bulunsa dahi.
+		Ýsim bulma iþlemi bir kere biterse bir daha tekrar baþlamaz! Bulununca name-lookup'a yerleþtirilir ve bu isim hep bulunan bu bildirime
+			göre kullanýlýr.
+		Üstteki maddeyi kullanarak name masking (hiding,shadowing) yapabilirsin. (23:06) mesela int printf = 0 dersen standard kütüphanedeki
+			printf fonksiyonunu maskelemiþ olursun.
+
+	class'larda default access specifier private, struct'ta ise public olur.
+	Sýnýfýn public bölümündeki üyelerin toplamýna sýnýfýn public interface'i
+	Sýnýfýn private bölümündeki üyelerin toplamýna sýnýfýn private interface'i
+	Sýnýfýn protected bölümündeki üyelerin toplamýna sýnýfýn protected interface'i denir.
+	Protected kalýtým olmadýðý sürece private ile ayný.
+	Eriþim belirteçleri scope belirtmez. sýnýftaki bütün öðeler sýnýf scope'unda yer alýr. 
+		Yani farklý access specifier olsa da sýnýf içinde ayný isimde iki farklý varlýk olamaz.
+	Overload resolution önce yapýlýr sonra access control yapýlýr. Yani önce overload seçilir, sonra ona eriþim yoksa sentaks hatasý
+		verilir. (21:55)
+		
+	Sýnýf içerisinde redeclaration olmaz. Ayný fonksiyonu iki kere tanýmlarsan sentaks hatasý olur.
+	Sýnýf içerisindeki üye fonksiyonlar sýnýf boyutunu deðiþtirmez. Boyutu yalnýzca data memberlar etkiler.
+	Sýnýfýn public interface'ine class'ýn baþlýk dosyasý içindeki global fonksiyonlar da dahil. illa sýnýf içerisinde tanýmlanmýþ
+		olmasý þart deðil.
+
+Sorular:
+
+	C'de struct veri elemanlarýný nasýl saklarsýn? eriþilmesini deðiþtirilmesini istemiyosan
+
+	

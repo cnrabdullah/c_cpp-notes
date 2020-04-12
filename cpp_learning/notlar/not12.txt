@@ -1,0 +1,62 @@
+10.02.2020
+
+
+Haftanýn Ödevleri:
+
+Haftanýn Notlarý:
+
+	Geçici Nesneler: 19:43
+		Ýsimlendirilmiþ nesneler geçici nesne olamaz.
+		Geçici nesneler pr value.
+		Geçici nesne bir referansa baðlanýrsa geçici nesnenin ömrü referansýn ömrü bittiðinde biter. (life extension)
+
+		Sentaks:
+			Myclass(12) ya da Myclass{} gibi isimsiz
+
+	Conversion Constructor: 20:37
+		Sýnýfýn özel bir fonksiyonu deðil.
+		ctor iþlevinin yanýnda, sýnýf türünden olmayan bir ifadeyi geçici nesne oluþturarak sýnýf türüne dönüþtürmek.
+		Burada oluþturulan nesne geçici nesne olacak ve yani sað taraf deðeri olacak.
+		
+		class Data{
+		public:
+			Data(int);
+		}
+		Data mydata = 10; burada conv ctor DEÐÝL, int ctor çaðýrýldý.
+		mydata = 15; burada conv ctor çaðýrýldý.
+		aslýnda olan þey: mydata = Data(10);
+		yani geçici bir nesne tanýmlayýp onu 10 ctor ile oluþturdu. atamayý bununla yaptý.
+		mesela std::string = "ali"; de conversion constructor'a bir örnek.
+
+	Explicit constructor: 21:24
+		explicit anahtar sözcüðü ile bildirilen constructor.
+		explicit anahtar sözcüðü sadece bildirimde olabilir.
+		explicit kullanýlýrsa conv ctor kullanmak için tek yol tür dönüþümü olur. mesela  mydata = sstatic_cast<Data>(13);
+		explicit ctor'la sýnýf oluþtururken þunu yapamazsýn:	Data mydata = 12;
+			Normalde bu explicit olmasa int parametresi olan ctor ile sýnýf oluþtulurdu.
+		explicit fonksiyon çaðrýsý legal deðilse overload için viable bir aday olmaz. 21:55
+			mesela:
+				explicit Data(int);
+				Data(double);
+				sýnýfýna Data mydata = 12; çaðrýsý yapýlýrsa double olan seçilir. sentaks hatasý olmaz.
+
+	Copy elision (copy elimination)	22:00
+		Örnek1:	fonksiyona geçici nesne gönderdiðimizde fonksiyon parametresi için copy yapmak yerine copy elision yapýyor
+				ve geçici nesneyi sýnýfa sanki referans almýþýz gibi direkt onu kullanýyor local argüman için kopyalama yapmadan. 22:12
+		Örnek2: RVO: return value optimization. Yukarýdaki durumu return için yapýyor. 22:17
+				
+				Bu iki örnekteki durumlar C++17 ile zorunlu hale geldi. Yani her zaman bu þekilde kod oluþturacak derleyici. Yani cctor'u delete
+					etsek dahi sentaks hatasý yok.
+		Örnek3: NRVO. RVO ile benzer durum fakat burada return deðeri geçici nesne deðil local olarak fonksiyon içinde oluþturulan nesne. 22:22
+				Bu örnekteki durum mecburi hale gelmemiþ C++17 ile. Burada cctor'u delete edersek sentaks hatasý olur.
+
+	
+
+
+Sorular:
+
+	19:34'deki anlattýðý durumu anlamadým.
+	std::move fonksiyonunu nerde kullanmalýyýz nerde iþimize yarar?
+	(uint8_t *)0x45755896 ifadesinde hangi tür dönüþtürme operatörü kullanýlmalý?
+	22:09
+	template anlamadým. 21:40

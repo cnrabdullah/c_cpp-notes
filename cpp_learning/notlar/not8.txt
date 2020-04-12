@@ -1,0 +1,48 @@
+31.01.2020
+
+
+Haftanýn Ödevleri:
+	func overloading
+	ve
+	sýnýflarda iþlediðimiz kadarý
+
+Haftanýn Notlarý:
+
+	Sýnýf üye fonksiyonunda bir isim aranýrken bloklarda ve fonksiyon içinde bulunamazsa class scope'ta aranýr. orda da yoksa 
+		global scope'a bakýlýr
+	Sýnýf vermeden direkt ::x diye kullanýlýrsa bu isim global scope'ta aranýr. Bulunamazsa hata verir. Yerel deðiþken olarak bulunsa dahi.
+	Sýnýf içindeki void foo()const; bildirimi const non-static member function olur. SINIF nesnesini deðiþtiremez. Üyeleri deðiþtirmeyle
+		alakalý bir terim deðil bu.
+	const olan ve olmayan member function'lar ile func overloading yapýlabilir.
+	const üye fonksiyon içinde non-static data member deðiþtirmek sentaks hatasý.
+
+	Fonksiyonlarýn parametre deðiþkenlerinin kapsamý fonksiyon blok baþlangýcýdýr. Yani fonk baþýnda tanýmlanmýþ gibi.
+
+	myClass sýnýfý içindeki üye fonksiyonlarda:
+		void func(); tanýmý aslýnda void func(myClass *);
+		void func()const; tanýmý aslýnda void func(const myClass *);
+		bu durumda const olmayana const myClass m nesnesini gönderirsek sentaks hatasý olur.
+
+	this anahtar sözcüðü(pointer) yalnýzca sýnýflarýn nonstatic üye fonksiyonlarý içinde kullanýlabilir.
+	üye fonksiyon hangi nesne için çaðýrýlmýþsa, this o nesnenin adresidir.
+	this bir pr value ifadedir.
+	*this l value ifadedir.
+
+	Global olan void foo(myClass *p) fonksiyonunu bir üye fonksiyon içerisinden çaðýrabilmek için this kullanmak zorundayýz.
+	Aynýsýný void foo(myClass &r) için yapmak istesek bu fonksiyona üye fonksiyon içerisinden *this ile çaðrý yapmak zorunda oluruz.
+	myClass * ya da & geri dönüþ deðeri olan üye fonksiyonlarda da this ya da *this ile dönüþ yapmak zorundayýz.
+
+	class Myclass{
+		void func();	//bu aslýnda void func(Myclass *const this);
+		void foo()const;	//bu aslýnda void foo(const Myclass *const this);
+	}
+
+	inline tanýmladýðýmýz fonksiyona ille de inline expansion yapýlacak diye bir þart yok.
+	inline tanýmlamamýþ olsak da derleyici fonksiyonu inline olarak da açabilir.
+
+Sorular:
+
+	19:30 19:45 arasýný tekrar izle
+	20:00 civarý gm.mx sorusunu tekrar izle. private eriþme		
+	22:00'daki const durumunu tekrar izle. 22:10'daki struct'lý örnekte p =&g ne iþe yarar ?
+

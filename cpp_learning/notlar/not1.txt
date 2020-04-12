@@ -1,0 +1,32 @@
+15.01.2020
+
+	Haftanýn Ödevleri:
+	
+	Haftanýn Notlarý:
+	
+		C but not CPP:
+			flexible array member
+			designated initalizer
+			compund literal
+			variable length array?
+			restrict pointer
+
+		C++ dilinde 'A' türü char. C dilinde türü int.
+
+		C dilinde "ahmet" string literalinin tipi char [5]. const deðil. C++ dilinde const char [5]
+		
+		C++ dilinde struct xxx{}; tanýmlasýndan sonra direkt xxx'i tip olarak kullanabiliriz typedef olmadan.
+		
+		C dilinde karþýlaþtýrmalar bool deðil int sonuç üretiyor. (x == 1) int tipindedir. C++'da ise bool üretirler.
+		C dilinde de C++ dilinde de bool türünden deðiþkene 1 ya da 0 atayabiliriz.
+		Ýki dilde de bool türü bit seviyesinde tanýmlanmamýþ. en az 1 byte
+		C++ dilinde bool'dan diðer aritmetik türlere ve aritmetik türlerden boola otomatik tür dönüþümü var.
+		C++ dilinde pointerdan bool'a dönüþüm mevcut. null ise false. bool'dan pointer'a dönüþüm yok.
+		
+	Kitaplar
+
+		C++ Primer
+		The C++ standard library 
+		
+	
+	

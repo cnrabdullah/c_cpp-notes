@@ -1,0 +1,30 @@
+22.01.2020
+
+Haftanýn Ödevleri:
+	
+Haftanýn Notlarý:
+	
+	C dilinde fonksiyon body'si giriliyorsa parametrelere isim vermek zorunlu, C++ dilinde zorunlu deðil.
+	(x = 10) ifadesi L value. x nesnesi dönüyor.
+	void foo(const int &r) fonksiyonunu r value ile çaðýrabiliriz.
+	const int&r = sað taraf deðeri yapabiliriz.
+	C++ dilinde global-static deðiþkenlere ilk deðer atarken fonksiyon çaðrýsý kullandýðýmýzda problem görmüyor. C dilinde sabit deðer istiyor.
+	Varsayýlan argüman içeren fonksiyonlarda en sondaki deðerler varsayýlan olmalý. Aralardakiler olamaz.
+	isim içeren bütün ifadeler sol taraf referansýdýr.
+	sað taraf referansý olan &&r tanýmlamasýndaki r ifadesi l value'dur.	
+	sað taraf referansýna r value atanmalýdýr (yani x ya da pr)
+	eðer tür çýkarýmý söz konusuysa auto &&r = expr ifadesi r value referans olmaz. forwarding reference ya da universal reference denir.
+		
+	decltype(isim) durumunda ismin türü. const ve ref düþmez
+	decltype(ifade) durumunda:
+		içerik pr value ise sonuç ifadenin türü
+		içerik l value ise sonuç &T
+		içerik X value ise sonuç &&T
+	decltype belirtecinde de sizeof'a benzer þekilde kod üretilmez. yani decltype(x++) ve sizeof(x++) ifadelerinde x deðiþmez.
+	const int x = 5; dersek x'i sabit ifade gerektiren heryerde kullanabiliriz. dizi boyutu bitfield vs. ama const int = y dersek yapamayýz.
+	constexpr anahtar sözcüðü const'un sabit ifade ile ilklendirilmiþ hali gibi.
+	constexpr fonksiyonlar sabit ifade ile çaðýrýlýrsa geri dönüþ deðeri compile time'da hesaplanýr. deðiþken ile çaðýrýlýrsa normal bir fonksiyon gibi runtime'da çaðýrýlýr.
+	bir fonksiyonun constexpr olmasý için statik ömürlü bir deðiþkeni deðiþtirmemesi gerekir.
+
+
+Sorular:

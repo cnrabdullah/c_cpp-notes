@@ -1,0 +1,149 @@
+17.02.2020
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Haftanýn Notlarý:
+
+	operator overloading global bir fonksiyona da karþýlýk gelebilir.
+	operator overloading member functiona da karþýlýk gelebilir.
+		member function olursa nonstatic olmak zorunda. statik bir operator overloading tanýmlanamaz.
+
+	overload edilemeyen operatörler:
+		.		(nokta operatörü)
+		sizeof	operatörü
+		::		scope resolutiion
+		.*		operatörü
+		?		koþul-ternary operatörü
+		typeid
+
+	bazý operatörler sadece member operatör function olabiliyor:
+		special member function assignment =	myclass türünden a1 = a2 mesela bu türe giriyor. ama a1 = ival normal overload
+		[]
+		()
+		->
+		tür dönüþtürme
+		
+	overload edilebilen ama tahmin edeyemeyeceklerimiz 19:48
+
+	Sentaks:
+		T operator=()
+		T operator<()
+
+	Operatör fonksiyonlar bir istisna hariç varsayýlan argüman alamazlar
+		fonksiyon çaðrýlarýný overload eden fonksiyonlar istisna	function call()
+
+	Operatörlerin arity'sini deðiþtiremeyiz. 19:55
+		Yani tek operatör alan operatörse buna göre overload edilecek.
+
+		unary(yani tek operatör alan.     ! operatörü mesela)
+			global fonksiyon ise tek operatör alacak:	bool operator!(myclass m)
+			member fonksiyon ise operatör almayacak.	bool operator!()	yani this alýyor.
+			
+		binary(yani çift operatör alan fonksiyonlar < operatörü mesela)
+			global fonksiyon ise çift operatör alacak:		bool operator<(myclass m1, myclass m2)
+			member fonksiyon ise tek operatör alacak. soldaki operand için member function
+				çaðýrýlacak:	bool operator<(myclass m)	yani this alýyor.
+
+		hem unary hem binary operatör alan fonksiyonlar. örnek: * + - *
+			bunlar hangisi kastediliyorsa onun için kural uygulanacak. 20:06
+
+	Tüm operatör fonksiyonlarý isimleriyle çaðýrýlabilir.
+
+	Global operatör fonksiyon mu yoksa üye operatör fonksiyon mu diye anlayabilmek için
+		iki þekilde de operator= gibi ismiyle çaðrý yaparak test edebiliriz.
+
+	Operatör öncelik yönü ve öncelik seviyesi deðiþtirilemez. 20:16
+
+	Fonksiyonun geri dönüþ deðeri ref mi olmalý?
+		operatörün normalde kullanýmýnýn value categorisine baðlý.
+		Mesela ival1 + ival2 toplamý normalde r value. o zaman operatör overload da r value dönmeli. yani ref dönmemeli.
+
+	Fonksiyonun parametresi const mu olmalý?
+		gönderilen deðer deðiþtirilmiyorsa const olmalý. mesela !m
+		eðer üye fonksiyon olarak yazýyorsak ve soldaki operand deðiþmiyorsa üye fonksiyon const olmalý. 21:18
+			
+	Fonksiyonun parametresi ref mi olmalý?
+		kopyalama maliyetine baðlý.
+
+	Örnekler: 21:14
+
+	Simetrik operatörler
+		a op b	ile		b op a		ayný anlama geliyorsa simetrik operatördür. (sonucunun ayný olmasý gerekmez.)
+		s1 < s2 de simetrik mesela. sonuç farklý olsa da anlam ayný.
+
+
+	Operatör fonksiyonu global mi yoksa üye olarak mý tanýmlanmalý? 21:45
+		Sýnýf nesnesini deðiþtiren fonksiyonlar üye olarak tanýmlanmalý. (mecbur deðil, tavsiye)
+		Binary ve simetrik operatörler global tanýmlanmalý (tabi yine sýnýfý deðiþtirmiyorsa.)
+		
+	Üye operatör fonksiyon her zaman binary operatörün sol operandýnýn üye fonksiyonu olarak çaðýrýlýr.
+		yani mesela d1 = d2 + d3; diyelim. burada operator+ fonksiyonu d2 icin cagirilacak.
+			yani:	d1 = d2.operator=(d3);
+
+	Ýþaretli türlerde taþma tanýmsýz davranýþ.
+
+	#pragma once her ide'de standard deðil. o yüzden yüzde yüz taþýnabilirlik için C tipi #if guard kullan
+
+	io sýnýflarýný kullanmamýz gerektiðinde incomplete type yeterliyse <iosfwd> include et.
+	
+	sýnýflarda class Data; gibi forward declaration yapmak doðru deðil.
+
+	Friend declaration, Arkadaþlýk bildirimi: 22:05
+		Sýnýf dosyasýndaki global fonksiyonlar da sýnýf interface'ine dahildir demiþtik.
+		Fakat bu global fonksiyonlar sýnýfýn private bölümüne eriþemiyor. Sýnýf interface'indeki
+			bu global fonksiyonlara sýnýfýn private bölümüne eriþim verebilmek için friend bildirimi kullanýyoruz.
+
+		3 þekilde friend bildirimi yapýlýr:
+			1: global fonksiyona arkadaþlýk vermek
+			2: bir sýnýfýn bir üye fonksiyonuna arkadaþlýk vermek
+			3: bir sýnýfa arkadaþlýk vermek
+
+		Sentaks:
+			sýnýf içinde (private ya da public ya da protected farketmez):	friend void foo(int);
+			derleyici bu tanýmdaki ismi name look'upta aramýyor.
+
+		friend global fonksiyonlar sýnýf içinde inline tanýmlanabilir. yine de global fonksiyon sayýlýyorlar. 
+
+		arkadaþlýk sadece arkadaþlýk verilen kiþiye geçer. veren kiþi de arkadaþlýk verdiði kiþinin arkadaþý olamaz.
+		ya da arkadaþýn arkadaþý arkadaþ deðildir.
+		kalýtým yapmak da arkadaþlýðýn geçmesine neden olmaz.
+
+		Direkt bir sýnýfa friend'lik vermek için: (engine sýnýfý içinde car sýnýfýna mesela)
+			friend class Car; (21.02.2020 21:11)
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Haftanýn Ödevleri:
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Sorular:
+	
+	Global fonksiyon ile bir üye fonksiyon overload olabilir mi?
+		üye fonksiyonu sýnýf instance'i ile çaðýrman gerekiyor. yani olamaz.
+	21:16'daki const'lu örneði tekrar izle
+	
+------------------------------------------------------------------------------------------------------------------------------------
+Mülakat Sorularý:
+
+	Neden global operatör fonksiyonlarý var? 20:43
+		- sýnýfýmýzýn kendi türünden olmayan bir sýnýfta operatör overload'u olmasý gerekiyorsa. 20:43
+		- ikinci neden:
+			üye operatör fonksiyon her zaman binary operatörün sol operandýnýn üye fonksiyonu olarak çaðýrýlýr.
+			mesela auto cx = 5 + myData; çaðrýsý her zaman auto cx = 5.operator+(myData) oarak çaðýrýlacak ve sentaks hatasý olacak.
+
+			
+
+------------------------------------------------------------------------------------------------------------------------------------
+Kitaplar:
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------

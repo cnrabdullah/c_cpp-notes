@@ -1,0 +1,45 @@
+27.01.2020
+
+
+Haftanýn Ödevleri:
+	
+
+
+Haftanýn Notlarý:
+
+	incomplete type'larý fonksiyon bildirimlerinde kullanabiliriz.
+	incomplete type'larýn extern bildirimini yapabiliriz.
+	incomplete type'larý typedef'de kullanabiliriz.
+	incomplete type'larý pointer ve referans tanýmlamada kullanabiliriz.
+
+	incomlete type mümkünse her zaman kullan ve include etmekten kaç
+
+	opaque pointer - handle body - cashire cat - pimpl idiomlar: 
+		yapýnýn içeriklerini saklamak istiyorsan yapý içeriðindeki deðiþkenleri ayrý bir struct'a taþýyýp esas yapýya sadece 
+		buradan bir pointer verebilirsin.
+
+	Yeni gelen özellik. enum Color : char {red, blue}; diyerek enum underlying type'ýný char yapabilirsin. Normalde int geliyor otomatik.
+
+	Enum Class:
+		enum class Color {red, blue}; þeklinde tanýmlarsak renklere Color.red þeklinde eriþmek zorunda oluruz.
+		bu durumda isim karýþýklýðý ortadan kalkar ve int'e assign etme þansý ortadan kalkar.
+
+	extern "C" bildirimi yaparak C derlemesi yaptýrabiliriz.
+
+		extern "C" void foo(int);
+		ya da
+		extern "C"
+		{
+			void foo1(int);
+			void foo1(int);
+		}
+
+	predefined symbolic constants:
+		__STDC__ tanýmlý ise C derleyicisidir
+		__cplusplus tanýmlý ise C++ derleyicisidir.
+
+Sorular:
+
+	- incomplete ve complete type'larý çalýþ C için
+	
+	

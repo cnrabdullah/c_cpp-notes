@@ -1,0 +1,51 @@
+07.02.2020
+
+
+Haftanýn Ödevleri:
+
+	hocanýn vereceði slayttan hangi durumda derleyicinin özel fonksiyon yazacaðýný açýklayan tabloyu ezberle. 22:00
+
+Haftanýn Notlarý:
+
+	x=y sýnýf atamasýnýn kendisi de x'e eþit. 19:42. yani (x = y).func() dersek x'in func fonksiyonu çaðýrýlýr.
+	x = y = z; gibi ifadeler saðdan sola doðru iþlenir. sonucu l value'dur. burada x nesnesidir sonucu mesela.
+	
+	Big 3lü. Bunlardan birini biz yazdýysak diðerlerini de bizim yazmamýz gerekir.
+		Destructor
+		Copy Constructor
+		Copy Assignment operator function
+
+	Big 5li
+		Destructor
+		Copy Constructor
+		Copy Assignment operator function
+		Move Constructor
+		Move Assignment operator function
+
+	Eðer cctor ve copy assignment gerektiren çaðrýlarda r value gönderiliyorsa move yapýlýr.
+	Move ctor içerisinde r value referansýn pointer data member'larýný nullptr yapmalýyýz. yoksa bu r value referans
+		move ctor bittikten sonra yok olacaðý için yok olurken kendi pointerýnýn gösterdiði alaný da free eder.
+	Sol taraf deðeriyle çaðýracaðýmýz fonksiyonda sað taraf referanslý overload'u çaðýrmak istiyorsak,
+		yani sol taraf deðerine sað taraf deðeri gibi davranýlmasýný istiyorsak: std::move(expression)
+	move çaðýrdýðýmýzda bir taþýma iþlemi yapýlmýyor sadece r value gibi davranýlmýþ oluyor. 
+	move çaðýrdýktan sonra move olarak çaðýrdýðýmýz nesneyi bir daha kullanmamalýyýz çok özel koþullar haricinde.
+	move ctor ve assignment op func için ilk deðer verme iþlemleri de std::move fonksiyonuna çaðrý yapýlarak r value'ye çevirmeyle yapýlýr.
+
+	Bir özel fonksiyon þu þekillerde bildirilebilir:
+		not declared
+		user declared
+			defined
+			defaulted
+			deleted
+		implicitly declared
+			defaulted
+			deleted: derleyici bunu yazarken dil kurallarýný çiðniyorsa kodu silmez onun yerine delete eder fonksiyonu.
+				Bunun istisnasý eðer kural çiðneyeceði fonksiyon move'lardan birisi ise delete etmek yerine not declared yapar.
+
+	Rule of zero:
+		Eðer default ctor ve parametreli ctor yazmak yeterliyse diðerlerinin yazýlmasýný derleyiciye býrak dokunma.
+	Big 3 yazýyorsan big 5 yazacaksýn.
+
+Sorular:
+
+	ctor initializer list'i bildirimde ya da tanýmda yapmanýn farký? cevap: bildirimde yapamazsýn. 

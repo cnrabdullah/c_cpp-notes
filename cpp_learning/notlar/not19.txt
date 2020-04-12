@@ -1,0 +1,135 @@
+26.02.2020
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Haftanýn Notlarý:
+	
+	User defined literal devamý:	""
+		cooked literal tanýmlamak için önceden tanýmlý olan parametre tiplerini kullanmak zorundayýz. 19:31
+		mesela:
+			T operator""_suffix(unsigned long long int)
+			T operator""_suffix(long double) 
+			T operator""_suffix(const char *p, size_t size)		//size eklemek cooked olanla uncooked olaný ayýrýr.	 
+			yani aslýnda buradaki amaç olabilecek en büyük deðeri yollamak.
+
+		uncooked literallerde parametre const char * olur ve size_t gönderilmez.
+		Örnek:	19:36
+			unsigned int operator "" _b(const char *);
+		Bu örneðin kullanýmýnda çaðrýyý yaparken char diziyi týrnak kullanmadan yolluyoruz. Mesela:
+			auto uval1 = 101_b;
+			
+
+	STRING SINIFI 19:40
+		#include <string>	//c++ string sýnýfý
+		#include <cstring>	//c'deki string.h dosyasý
+
+		string sýnýfý dinamik bellek kullanarak yazý tutar. allocation yapýlýrken yazý boyutu kadar deðil, maksimum olarak belirlenen
+			bir boyut kadar yer ayrýlýr. Çünkü yazýya append iþlemi yapýlabilir.
+		string sýnýfý içinde 3 pointer tutulur.		19:50
+			birisi yazýnýn tutulacaðý dinamik olarak oluþturulan belleðin baþýný gösterir.
+			birisi bu dinamik bellekteki yazýnýn bittiði yeri gösterir.
+			birisi dinamik belleðin maksimum boyutunu yani belleðin sonunu gösterir.
+
+		eðer yazýya append ede ede o sýnýf için ayrýlan dinamik belleðin sonuna gelinirse, o belleðin 1.5-2 katý kadar büyüklükte yeni
+			bir bellek oluþturur ve yazýyý oraya taþýr. (reallocation _onemli)
+
+		bir container'ýn size'ý toplam kaç byte tuttuðu iken; kapasitesi ise tuttuðu öðe cinsinden kaç öðe tutabildiðidir. 21:35
+			bu durumda mesela string sýnýfý için size ve capacity eþit çünkü char = 1 byte
+
+		string sýnýfý aslýnda basic_string türünden oluþturulan bir tür eþ ismi.	19:56
+		türü ekrana bastýrmak için:
+			cout << typeid(string).name();
+		
+		string sýnýfýnýn size type'ý olarak her zaman size_t kullanýlmamalý. implementasyondan implementasyona deðiþiklik gösterebiliyor
+			onun yerine string::size_type olarak tanýmlanan public tür eþ ismi kullanýlmalý.
+			mesela yazýnýn türünü bu cinsten dönüyor.
+			mesela string sýnýfýndaki arama fonksiyonlarý C'deki gibi pointer dönmüyor, onun yerine indeks dönüyor. bu indeksin tipi de 
+				size_type türünden
+
+	string sýnýf interface'i:	20:20 _onemli
+		string'in tuttuðu yazý boyutunu .size() ya da .length() fonksiyonlarý ile öðrenebiliriz. return size_type
+		capacity() ise ayrýlan dinamik belleðin toplam kaç öðe tutabildiðini(char mesela) gösterir. return size_type
+			capacity() deðeri kaç ise o boyutta yazý tutabiliriz. \0 için dert etmene gerek yok.
+
+	string sýnýf arayüzündeki fonksiyonlarý parametrelerine bakarak anlayabilmek için oluþturulmuþ bir tablo. 20:28
+
+	necati hoca bu tablodakilerden bazýlarýna þu isimlerle seslenecek:
+		const char *cstr					-> cstring parametre
+		const char *cstr, size_type len		-> data parametre 
+		size_type num, char c				-> field parametre
+		const iterator beg, const iterator end		-> range parametre
+
+		(const string &r, size_type index, siztype num) parametreli fonksiyonlarda num deðeri yazý boyutunu aþsa da tanýmsýz
+			davranýþ yok. null'a kadar olan yazý ele alýnýr.
+		(const char *cstr, size_type len) parametreli fonksiyonlarda ise len deðeri yazý boyutunu aþarsa tanýmsýz davranýþtýr.
+		(size_type num, char c) parametreli fonksiyonlar num adet c karakteri anlamýna gelir.
+		{size_type num, char c} þeklinde kullanýrsak anlam farklý. burada initalizer list anlamýna gelir. 21:04
+		range parametreli fonksiyonda begin adresi dahil, end adresi hariç olarak ele alýnýr. 21:08
+
+	container sýnýflarda mesela str.reserve(500000) diyerek kapasiteyi kendimiz belirleyebiliriz.
+
+	_onemli
+		string sýnýfýnda null karakter gerekliliði yok. yani yazýnýn tamamý null karakterlerden( \0 ) de oluþabilir. sonlandýrýcý görevi
+			görmez null karakteri. 21:28
+
+	koþeli parantez ile yazýnýn bir indeksine eriþmek istersek ve bu indeks yazý boyutundan büyükse geçersiz davranýþ. exception throw
+		etmiyor. o yüzden bunun yerine .at(n) kullanmak daha mantýklý olabilir. köþeli parantez dýþýndaki fonksiyonlarýn nerdeyse hepsi
+		exception throw ediyor bu arada. örnek:
+		auto c = str[30000];	//yerine
+		auto c = str.at(30000);	//kullan
+
+	yazýnýn sonuna karakter eklemek için push_back('c') ya da += kullanabiliriz.
+	yazýnýn herhangi bir yerine karakter ya da cstring ya da string eklemek için insert kullanabiliriz. 22:09
+		
+	str.front() = 'm';	front fonksiyonu container'larda tutulan ilk öðeye referans tutar
+	str.back() = 'n';	back fonksiyonu container'larda tutulan son öðeye referans tutar
+
+
+	Initializer list:
+		{3,6,4}
+
+	Algoritma tanýþmasý:
+		Amacý, container'larýn içinde tutulan öðelerle ilgili genelleþtirilmiþ iþlem yapan fonksiyonlardýr. 
+------------------------------------------------------------------------------------------------------------------------------------
+Sorular:
+
+	const char * türünden parametreli user defined literal için cooked ya da uncooked hangisini kullanacaðýmýza neye göre karar 
+		vereceðiz?
+	uncooked const char * türünden parametreli user defined literal için neden sadece sayý gönderebiliyoruz?
+	RAII tekrar et
+
+------------------------------------------------------------------------------------------------------------------------------------
+Haftanýn Ödevleri:
+	
+	string sýnýf ödevlerini telegrama atacak hoca
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+Mülakat Sorularý:
+
+	sizeof(string) nedir?
+		24'e eþitmiþ(pointer boyutu 4 iken). aslýnda biz 3 adet ptr tutuyor demiþtik yani 12 olmasýný beklerdik.
+		ancak heap'te iþlem yapmak maliyetli olduðu için string sýnýfý stack'te 12 byte boyutunda bir yer ayýrýyor
+		ve normal bir char dizisi gibi burada iþlem yapýyor. biz 12 byte'tan büyük bir yazý istersek o zaman heap kullanýyor.
+		buna SMALL STRING OPTIMIZATION deniyor.
+
+	bir string'in nihayetinde ne kadar yer tutacaðý belliyse reserve ile kapasiteyi baþta belirlemek mantýklý. bu sayede
+		sürekli sürekli reallocation yapýlmasýnýn önüne geçmiþ oluruz.
+
+	string::npos
+		sýnýfýn constexpr static string::size_type türünden bir veri elemaný.
+		bu eleman size_type'ýn maksimum deðerini tutar.
+		nerede kullanýlýr?:
+			mesela arama fonksiyonlarý, gerþ dönüþ deðeri olarak indeks(size_type) dönüyor. eðer bulamazsa npos döner.
+				yani indeks olamayacak bir deðer dönmesi gerektiði için npos dönüyor.
+
+------------------------------------------------------------------------------------------------------------------------------------
+Kaynaklar:
+	
+	Nicolai Josuttis - The C++ Standard Library	kitabý her C++ geliþtiricisinin okumasý gereken bir kitap. 20:20
+		bunun string bölümünün üstünden geç
+	Diðer de: C++ Primer
+
+
+------------------------------------------------------------------------------------------------------------------------------------

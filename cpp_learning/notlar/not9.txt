@@ -1,0 +1,62 @@
+03.02.2020
+
+
+Haftanýn Ödevleri:
+
+Haftanýn Notlarý:
+	
+	inline anahtar sözcüðünün bildirim ya da tanýmda bir kez geçmesi yeterli.
+	sýnýfýn üye fonksiyonunu sýnýf içerisindeki bildirimde tanýmlarsak inline tanýmlamýþ oluruz. inline keyword eklemesek de.
+	constexpr fonksiyonlar impilicitly inline olur.
+
+	constructor(ctor)/destructor (20:03)
+	constructor'lar const, global ya da static olamazlar. overload edilebilirler.
+	constructor'lar private public ya da protected olabilir. eriþim kontrolü yine de yapýlacaktýr ama. 
+		yani private ise nesneyi private eriþimi olmayan bir yerde oluþturamýyoruz. ÖNEMLÝ!
+	constructor'da hiç parametre belirtilmezse ya da bütün parametreler default parametre ise default constructor olur.
+
+	special member functions:
+		1: default ctor
+		2: copy ctor
+		3: move ctor
+		4: copy assignment function
+		5: move assignment function
+		6: destructor
+
+	sýnýf, constructor fonksiyonun BÝTMESÝYLE oluþur. destructor fonksiyonunun BAÞLAMASIYLA yok olur.
+	destructor overload edilemez. parametre deðiþkeni olamaz.
+	destructor static, const ve global olamaz.
+
+	C++ dilinde java c# gibi dillerden farklý olarak sýnýflar dinamik ömürlü olmak zorunda deðil. 
+		otomatik, statik ya da dinamik ömürlü olabilir.	
+
+	Global sýnýflarýn ctor'u main çaðýrýlmadan önce çaðýrýlýr.
+	Dinamik ömürlü olmayan sýnýflarýn destructorlarý çaðýrýlma sýrasýyla ters sýrada çaðýrýlýr. 21:10
+	Farklý kaynak dosyalarýnda tanýmlanan sýnýflarýn hangi sýrada oluþturulacaðýyla ilgili hiç bir garanti yok. 21:15
+	Sýnýflardan oluþan diziler için dizi boyutu kadar ctor çaðýrýlýr. dtor çaðýrýlmasý yine ters sýrada olur.
+	0'dan 100'e kadar olan sayýlarý ekrana yazdýr, ancak döngü kullanma. ters sýra ile yapýlabilir ctor dtor ters olmasý kullanýlarak. 21:31
+
+	dinamik ömürlü nesneyi delete etmezsek dtor hiçbir zaman çaðýrýlmaz.
+
+	Default Ctor çaðýrýlmasý için:
+		Myclass m1;
+		Myclass m2{};
+
+	Deðer bekleyen Ctor çaðýrýlmasý için:			21:47
+		Myclass m1(10);
+		Myclass m2{20};	//modern c++
+		Myclass m3 = 30;	//explicit ctor olursa bu sentaks hatasý olur!
+
+	ctor initializer list - member initializer list(MIL)
+		ctor'a girildiði anda data member'lar oluþturulmuþ oluyor zaten. içerde deðer atarsak initialize etmiþ olmuyoruz.
+		ilk deðer gerektiren data member'lar (mesela ref ya da const) için ctor initializer list mecbur. ctor içinde deðer atamak
+			yeterli deðil, sentaks hatasý.
+		sentaks:
+			myclass::myclass():mx(10),my(20){};
+		ctor init list hangi sýrada olursa olsun, data memberlar tanýmlanma sýrasý neyse o sýrada hayata gelirler.
+
+Sorular:
+
+	Video baþýndan inline ile ilgili kýsýmlarý tekrar izleyebilirsin
+	telegramdan hocanýn paylaþacaðý kitaptan inline bölümü okunacak.
+	20:40da bahsettiði çok önemli farký tekrar izle.
